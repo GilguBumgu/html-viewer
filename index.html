@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HTML 바로보기</title>
+<meta name="description" content="아이폰·아이패드에서 HTML 파일을 골라 바로 실행하는 뷰어">
+<meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1d1a16" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="HTML 보기">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono&family=IBM+Plex+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Hallmark · genre: editorial · macrostructure: Index-First · theme: Almanac (red-pen variant)
+   * nav: N9 · footer: Ft2 · enrichment: none · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; min-height: 100%; overflow-x: clip; }
+  body {
+    background: var(--color-paper); color: var(--color-ink);
+    font: 400 var(--text-base)/1.6 var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  :focus-visible { outline: var(--rule-heavy) solid var(--color-focus); outline-offset: 2px; }
+
+  /* ---------- 목록 화면 ---------- */
+  #home {
+    max-width: 44rem; margin: 0 auto;
+    padding: calc(var(--safe-t) + var(--space-lg)) var(--space-sm) calc(var(--safe-b) + var(--space-lg));
+  }
+
+  .mast {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--rule-heavy) solid var(--color-ink);
+  }
+  .mast h1 {
+    margin: 0; min-width: 0; overflow-wrap: anywhere;
+    font: 700 var(--text-xl)/1.1 var(--font-display); letter-spacing: -0.02em;
+  }
+  .mast .count {
+    flex: none; font: 400 var(--text-sm)/1 var(--font-outlier);
+    font-variant-numeric: tabular-nums; color: var(--color-muted);
+  }
+  .lede { margin: var(--space-xs) 0 var(--space-xl); color: var(--color-muted); max-width: 34ch; }
+
+  /* 파일 열기: 목록의 첫 줄이 곧 버튼 */
+  .opener {
+    position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center;
+    gap: var(--space-sm); padding: var(--space-md) var(--space-sm);
+    margin-inline: calc(-1 * var(--space-sm)); /* 글자 시작선을 목록과 맞춤 */
+    cursor: pointer; transition: background-color var(--dur-short) var(--ease-out);
+  }
+  /* 위아래 줄은 본문 폭에 맞추고, 눌림 배경만 양옆으로 살짝 넓게 */
+  .opener::before, .opener::after {
+    content: ""; position: absolute; left: var(--space-sm); right: var(--space-sm);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+  .opener::before { top: 0; }
+  .opener::after { bottom: 0; }
+  .opener input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .opener:has(input:focus-visible) { outline: var(--rule-heavy) solid var(--color-focus); outline-offset: 2px; }
+  .opener .mark {
+    width: 2.5rem; height: 2.5rem; display: grid; place-items: center;
+    border: var(--rule-heavy) solid var(--color-accent); border-radius: 50%;
+    color: var(--color-accent); font: 700 var(--text-md)/1 var(--font-body);
+    transition: transform var(--dur-short) var(--ease-out);
+  }
+  .opener strong { display: block; font-size: var(--text-md); line-height: 1.3; white-space: nowrap; }
+  .opener small { display: block; color: var(--color-muted); font-size: var(--text-sm); }
+  .opener:active, .opener.over { background: var(--color-paper-2); }
+  .opener:active .mark { transform: scale(0.94); }
+  .opener.over .mark { background: var(--color-accent); color: var(--color-accent-ink); }
+  .opener.busy { pointer-events: none; }
+  .opener.busy .mark { border-style: dashed; animation: turn 1.2s linear infinite; }
+  @media (hover: hover) { .opener:hover { background: var(--color-paper-2); } }
+  @keyframes turn { to { transform: rotate(1turn); } }
+
+  .note { margin: var(--space-xs) 0 0; font-size: var(--text-sm); color: var(--color-muted); }
+
+  /* 최근 파일 색인 */
+  .group { margin-top: var(--space-xl); }
+  .group h2 {
+    margin: 0 0 var(--space-2xs); font: 700 var(--text-sm)/1.4 var(--font-body);
+    color: var(--color-muted); letter-spacing: 0.04em;
+  }
+  .group ol { list-style: none; margin: 0; padding: 0; border-top: var(--rule-hair) solid var(--color-ink); }
+  .group li { display: flex; align-items: stretch; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .row {
+    flex: 1; min-width: 0; text-align: left; padding: var(--space-sm) var(--space-2xs) var(--space-sm) 0;
+    transition: color var(--dur-short) var(--ease-out);
+  }
+  .row .name { display: block; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .meta {
+    display: block; font: 400 var(--text-sm)/1.5 var(--font-body);
+    font-variant-numeric: tabular-nums; color: var(--color-muted);
+  }
+  .row:active .name { color: var(--color-accent); }
+  @media (hover: hover) { .row:hover .name { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; } }
+  .del {
+    flex: none; padding: 0 var(--space-2xs) 0 var(--space-sm); min-width: 44px;
+    font-size: var(--text-sm); color: var(--color-muted); white-space: nowrap;
+  }
+  .del:active { color: var(--color-accent); }
+  @media (hover: hover) { .del:hover { color: var(--color-accent); } }
+
+  .empty { margin: var(--space-xl) 0 0; color: var(--color-muted); }
+
+  .foot {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2xs) var(--space-md);
+    margin-top: var(--space-2xl); padding-top: var(--space-sm);
+    border-top: var(--rule-hair) solid var(--color-rule);
+    font-size: var(--text-sm); color: var(--color-muted);
+  }
+  .foot p { margin: 0; max-width: 42ch; }
+  .foot b { color: var(--color-ink); font-weight: 700; }
+  .foot button { color: var(--color-muted); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  .foot button:active { color: var(--color-accent); }
+
+  /* ---------- 실행 화면 ---------- */
+  #viewer { position: fixed; inset: 0; background: var(--color-stage); display: none; }
+  #viewer.on { display: block; }
+  #frame { border: 0; width: 100%; height: 100%; display: block; }
+
+  #bar {
+    position: fixed; z-index: 10; left: var(--space-xs); top: calc(var(--safe-t) + var(--space-xs));
+    display: flex; align-items: stretch;
+    background: var(--color-paper); color: var(--color-ink);
+    border: var(--rule-hair) solid var(--color-ink); border-radius: var(--radius-sm);
+    box-shadow: 0 1px 0 var(--color-ink);
+    font-size: var(--text-sm); font-weight: 700;
+  }
+  #bar button { padding: var(--space-2xs) var(--space-xs); min-height: 40px; white-space: nowrap; }
+  #bar button:active { background: var(--color-paper-2); }
+  #bar #tuck { border-left: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); font-weight: 400; }
+  #bar.tucked #back { display: none; }
+  #bar.tucked #tuck { border-left: 0; }
+
+  #toast {
+    position: fixed; z-index: 20; left: var(--space-sm); right: var(--space-sm);
+    bottom: calc(var(--safe-b) + var(--space-sm));
+    max-width: 30rem; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-ink); color: var(--color-paper); border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    opacity: 0; transform: translateY(8px); pointer-events: none;
+    transition: opacity var(--dur-mid) var(--ease-out), transform var(--dur-mid) var(--ease-out);
+  }
+  #toast.on { opacity: 1; transform: none; pointer-events: auto; }
+  #toast button { color: var(--color-paper); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  #toast button[hidden] { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 120ms !important; animation: none !important; }
+    #toast { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<main id="home">
+  <header class="mast">
+    <h1>HTML 바로보기</h1>
+    <span class="count" id="count" aria-live="polite"></span>
+  </header>
+  <p class="lede">파일을 고르면 이 화면에서 바로 실행돼요.</p>
+
+  <label class="opener" id="drop">
+    <span class="mark" aria-hidden="true">+</span>
+    <span>
+      <strong id="opener-label">파일 열기</strong>
+      <small>.html · .htm · .zip</small>
+    </span>
+    <input id="pick" type="file" multiple accept=".html,.htm,.zip,text/html,application/zip,image/*,.css,.js">
+  </label>
+  <p class="note">이미지·CSS가 딸린 HTML은 함께 고르거나, 폴더째 ZIP으로 묶어서 열어 주세요.</p>
+
+  <div id="recent"></div>
+
+  <footer class="foot">
+    <p id="install">Safari <b>공유 → 홈 화면에 추가</b>로 앱처럼 쓰면 오프라인에서도 열려요.</p>
+    <button id="clear" type="button" hidden>최근 목록 비우기</button>
+  </footer>
+</main>
+
+<section id="viewer" aria-label="HTML 실행 화면">
+  <div id="bar">
+    <button id="back" type="button">← 목록</button>
+    <button id="tuck" type="button" aria-label="버튼 접기" aria-expanded="true">접기</button>
+  </div>
+  <iframe id="frame" title="실행 중인 HTML"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-downloads"
+    allow="fullscreen; clipboard-write; autoplay"></iframe>
+</section>
+
+<div id="toast" role="status"><span id="toast-msg"></span><button id="toast-undo" type="button" hidden>되돌리기</button></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (s) => document.querySelector(s);
+  const MAX_RECENT = 20;
+  let liveUrls = [];      // 현재 열린 파일이 쓰는 blob URL (닫을 때 해제)
+  let currentPack = null; // { name, files: [{ path, blob }] }
+
+  // ---------- 알림 ----------
+  let toastTimer;
+  // undo가 있으면 "되돌리기" 버튼을 함께 띄움 (확인창 대신 되돌리기)
+  function toast(msg, undo) {
+    const t = $("#toast");
+    const btn = $("#toast-undo");
+    $("#toast-msg").textContent = msg;
+    btn.hidden = !undo;
+    btn.onclick = undo ? () => { t.classList.remove("on"); undo(); } : null;
+    t.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("on"), undo ? 5000 : 2600);
+  }
+
+  // ---------- IndexedDB (최근 파일) ----------
+  const dbReady = new Promise((resolve) => {
+    try {
+      const req = indexedDB.open("html-viewer", 1);
+      req.onupgradeneeded = () => req.result.createObjectStore("packs", { keyPath: "id" });
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch { resolve(null); }
+  });
+
+  async function tx(mode, fn) {
+    const db = await dbReady;
+    if (!db) return null;
+    return new Promise((resolve, reject) => {
+      const t = db.transaction("packs", mode);
+      const result = fn(t.objectStore("packs"));
+      t.oncomplete = () => resolve(result && "result" in result ? result.result : undefined);
+      t.onerror = () => reject(t.error);
+    });
+  }
+
+  const saveRecent = (pack) => tx("readwrite", (s) => s.put(pack)).catch(() => toast("저장 공간이 부족해 최근 목록엔 못 넣었어요"));
+  const listRecent = async () => ((await tx("readonly", (s) => s.getAll()).catch(() => [])) || []).sort((a, b) => b.time - a.time);
+  const deleteRecent = (id) => tx("readwrite", (s) => s.delete(id));
+
+  const DAY = 86400000;
+  function groupOf(time) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    if (time >= today.getTime()) return "오늘";
+    if (time >= today.getTime() - 6 * DAY) return "이번 주";
+    return "그 전";
+  }
+  const fmtTime = (time) => groupOf(time) === "오늘"
+    ? new Date(time).toLocaleTimeString("ko-KR", { hour: "numeric", minute: "2-digit" })
+    : new Date(time).toLocaleDateString("ko-KR", { month: "long", day: "numeric", weekday: "short" });
+
+  async function renderRecent() {
+    const items = await listRecent();
+    // 오래된 항목 정리
+    for (const old of items.slice(MAX_RECENT)) await deleteRecent(old.id);
+    const shown = items.slice(0, MAX_RECENT);
+
+    $("#count").textContent = shown.length ? `보관 ${shown.length}` : "";
+    $("#clear").hidden = !shown.length;
+    const box = $("#recent");
+    box.innerHTML = "";
+    if (!shown.length) {
+      const p = document.createElement("p");
+      p.className = "empty";
+      p.textContent = "아직 연 파일이 없어요. 위에서 첫 파일을 열어 보세요.";
+      box.append(p);
+      return;
+    }
+
+    const groups = new Map();
+    for (const p of shown) {
+      const g = groupOf(p.time);
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(p);
+    }
+    for (const [label, list] of groups) {
+      const sec = document.createElement("section");
+      sec.className = "group";
+      const h = document.createElement("h2");
+      h.textContent = label;
+      const ol = document.createElement("ol");
+      for (const p of list) {
+        const li = document.createElement("li");
+        const row = document.createElement("button");
+        row.className = "row";
+        row.type = "button";
+        const name = document.createElement("span");
+        name.className = "name";
+        name.textContent = p.name;
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = fmtTime(p.time) + (p.files.length > 1 ? ` · 파일 ${p.files.length}개` : "");
+        row.append(name, meta);
+        row.onclick = () => { p.time = Date.now(); saveRecent(p); openPack(p); };
+        const del = document.createElement("button");
+        del.className = "del";
+        del.type = "button";
+        del.setAttribute("aria-label", p.name + " 지우기");
+        del.textContent = "지우기";
+        del.onclick = async () => {
+          await deleteRecent(p.id);
+          renderRecent();
+          toast(`${p.name} 지웠어요`, async () => { await saveRecent(p); renderRecent(); });
+        };
+        li.append(row, del);
+        ol.append(li);
+      }
+      sec.append(h, ol);
+      box.append(sec);
+    }
+  }
+
+  // ---------- 파일 읽기 ----------
+  const normPath = (p) => {
+    const out = [];
+    for (const seg of p.replace(/\\/g, "/").split("/")) {
+      if (!seg || seg === ".") continue;
+      if (seg === "..") out.pop(); else out.push(seg);
+    }
+    return out.join("/");
+  };
+  const isHtml = (p) => /\.html?$/i.test(p);
+  const mimeOf = (p) => ({
+    html: "text/html", htm: "text/html", css: "text/css", js: "text/javascript", mjs: "text/javascript",
+    json: "application/json", svg: "image/svg+xml", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg",
+    gif: "image/gif", webp: "image/webp", ico: "image/x-icon", woff: "font/woff", woff2: "font/woff2",
+    ttf: "font/ttf", otf: "font/otf", mp3: "audio/mpeg", mp4: "video/mp4", wav: "audio/wav", pdf: "application/pdf",
+  }[(p.split(".").pop() || "").toLowerCase()] || "application/octet-stream");
+
+  let jszipLoading;
+  function loadJSZip() {
+    if (window.JSZip) return Promise.resolve(window.JSZip);
+    jszipLoading ||= new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "vendor/jszip.min.js";
+      s.onload = () => resolve(window.JSZip);
+      s.onerror = () => { jszipLoading = null; reject(new Error("ZIP 도구를 불러오지 못했어요")); };
+      document.head.append(s);
+    });
+    return jszipLoading;
+  }
+
+  async function filesToPack(fileList) {
+    const files = [];
+    for (const f of fileList) {
+      if (/\.zip$/i.test(f.name) || f.type === "application/zip") {
+        const JSZip = await loadJSZip();
+        const zip = await JSZip.loadAsync(f);
+        const entries = Object.values(zip.files).filter((e) => !e.dir && !/(^|\/)(__MACOSX|\.DS_Store)/.test(e.name));
+        // ZIP 안이 폴더 하나로 감싸져 있으면 그 폴더를 루트로 취급
+        const tops = new Set(entries.map((e) => e.name.split("/")[0]));
+        const strip = tops.size === 1 && entries.every((e) => e.name.includes("/")) ? [...tops][0].length + 1 : 0;
+        for (const e of entries) {
+          const path = normPath(e.name.slice(strip));
+          const data = await e.async("blob");
+          files.push({ path, blob: new Blob([data], { type: mimeOf(path) }) });
+        }
+      } else {
+        files.push({ path: normPath(f.webkitRelativePath || f.name), blob: f.slice(0, f.size, f.type || mimeOf(f.name)) });
+      }
+    }
+    const htmls = files.filter((f) => isHtml(f.path));
+    if (!htmls.length) throw new Error("HTML 파일이 없어요");
+    // 시작 페이지: index.html 우선, 없으면 경로가 가장 얕은 첫 HTML
+    const entry = htmls.find((f) => /(^|\/)index\.html?$/i.test(f.path) && !f.path.includes("/"))
+      || htmls.sort((a, b) => a.path.split("/").length - b.path.split("/").length)[0];
+    return {
+      id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+      name: entry.path.split("/").pop(),
+      entry: entry.path,
+      time: Date.now(),
+      files,
+    };
+  }
+
+  // 한국어 파일은 EUC-KR(CP949)인 경우가 있어 UTF-8 실패 시 자동 전환
+  async function readText(blob) {
+    const buf = await blob.arrayBuffer();
+    try { return new TextDecoder("utf-8", { fatal: true }).decode(buf); }
+    catch { try { return new TextDecoder("euc-kr").decode(buf); } catch { return new TextDecoder().decode(buf); } }
+  }
+
+  // ---------- 상대경로 → blob URL 연결 ----------
+  const isExternal = (u) => !u || /^([a-z][a-z0-9+.-]*:|\/\/|#)/i.test(u.trim());
+
+  async function buildPage(pack, htmlPath) {
+    const byPath = new Map(pack.files.map((f) => [f.path.toLowerCase(), f]));
+    const byName = new Map();
+    for (const f of pack.files) byName.set(f.path.split("/").pop().toLowerCase(), f);
+    const urlCache = new Map();
+
+    const find = (ref, baseDir) => {
+      const clean = decodeURIComponent(ref.split(/[?#]/)[0]);
+      return byPath.get(normPath(baseDir + "/" + clean).toLowerCase())
+        || byPath.get(normPath(clean).toLowerCase())
+        || byName.get(clean.split("/").pop().toLowerCase());
+    };
+    const suffix = (ref) => (ref.match(/[?#].*$/) || [""])[0].replace(/^\?[^#]*/, "");
+
+    const rewriteCss = async (css, baseDir) => {
+      const parts = [];
+      let last = 0;
+      for (const m of css.matchAll(/url\(\s*(['"]?)([^'")]+)\1\s*\)/gi)) {
+        parts.push(css.slice(last, m.index));
+        const f = isExternal(m[2]) ? null : find(m[2], baseDir);
+        parts.push(f ? `url("${await urlFor(f)}${suffix(m[2])}")` : m[0]);
+        last = m.index + m[0].length;
+      }
+      parts.push(css.slice(last));
+      return parts.join("");
+    };
+
+    async function urlFor(f) {
+      if (urlCache.has(f.path)) return urlCache.get(f.path);
+      let blob = f.blob;
+      if (/\.css$/i.test(f.path)) {
+        const dir = f.path.split("/").slice(0, -1).join("/");
+        blob = new Blob([await rewriteCss(await readText(f.blob), dir)], { type: "text/css" });
+      }
+      const url = URL.createObjectURL(blob);
+      liveUrls.push(url);
+      urlCache.set(f.path, url);
+      return url;
+    }
+
+    const file = byPath.get(htmlPath.toLowerCase());
+    const baseDir = htmlPath.split("/").slice(0, -1).join("/");
+    const doc = new DOMParser().parseFromString(await readText(file.blob), "text/html");
+
+    for (const el of doc.querySelectorAll("[src],[href],[poster],[data],[srcset]")) {
+      for (const attr of ["src", "href", "poster", "data"]) {
+        const v = el.getAttribute(attr);
+        if (v == null || isExternal(v)) continue;
+        const f = find(v, baseDir);
+        if (!f) continue;
+        if (isHtml(f.path)) {
+          // 다른 HTML 페이지로 가는 링크는 뷰어가 가로채서 다시 조립
+          el.setAttribute("data-hv-page", f.path);
+          el.setAttribute(attr, "#");
+        } else {
+          el.setAttribute(attr, (await urlFor(f)) + suffix(v));
+        }
+      }
+      const ss = el.getAttribute("srcset");
+      if (ss) {
+        const out = [];
+        for (const part of ss.split(",")) {
+          const [u, ...rest] = part.trim().split(/\s+/);
+          const f = !isExternal(u) && find(u, baseDir);
+          out.push([f ? await urlFor(f) : u, ...rest].join(" "));
+        }
+        el.setAttribute("srcset", out.join(", "));
+      }
+    }
+    for (const st of doc.querySelectorAll("style")) st.textContent = await rewriteCss(st.textContent, baseDir);
+    for (const el of doc.querySelectorAll("[style]")) el.setAttribute("style", await rewriteCss(el.getAttribute("style"), baseDir));
+
+    // 같은 묶음 안의 다른 페이지로 이동하는 링크 처리
+    const nav = doc.createElement("script");
+    nav.textContent = `document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-hv-page]");if(!a)return;e.preventDefault();parent.postMessage({hvPage:a.getAttribute("data-hv-page")},"*");},true);`;
+    (doc.body || doc.documentElement).append(nav);
+
+    const doctype = doc.doctype ? new XMLSerializer().serializeToString(doc.doctype) : "<!DOCTYPE html>";
+    return doctype + "\n" + doc.documentElement.outerHTML;
+  }
+
+  // ---------- 열기 / 닫기 ----------
+  function releaseUrls() {
+    for (const u of liveUrls) URL.revokeObjectURL(u);
+    liveUrls = [];
+  }
+
+  async function showPage(pack, path) {
+    releaseUrls();
+    const html = await buildPage(pack, path);
+    const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+    liveUrls.push(url);
+    // iframe을 새로 만들어 교체: src만 바꾸면 방문 기록이 쌓여 "← 목록"이 이전 페이지로 가버림
+    const old = $("#frame");
+    const frame = old.cloneNode(false);
+    frame.src = url;
+    old.replaceWith(frame);
+    document.title = path.split("/").pop();
+  }
+
+  async function openPack(pack) {
+    try {
+      currentPack = pack;
+      await showPage(pack, pack.entry);
+      $("#viewer").classList.add("on");
+      $("#home").hidden = true;
+      $("#bar").classList.remove("tucked");
+      $("#tuck").textContent = "접기";
+      $("#tuck").setAttribute("aria-expanded", "true");
+      history.pushState({ viewing: true }, "");
+    } catch (err) {
+      console.error(err);
+      toast("열 수 없는 파일이에요: " + err.message);
+    }
+  }
+
+  function closeViewer() {
+    $("#viewer").classList.remove("on");
+    $("#home").hidden = false;
+    const blank = $("#frame").cloneNode(false);
+    blank.removeAttribute("src");
+    $("#frame").replaceWith(blank);
+    releaseUrls();
+    currentPack = null;
+    document.title = "HTML 바로보기";
+    renderRecent();
+  }
+
+  async function handleFiles(list) {
+    if (!list || !list.length) return;
+    const opener = $("#drop");
+    opener.classList.add("busy");
+    $("#opener-label").textContent = "여는 중…";
+    try {
+      const pack = await filesToPack([...list]);
+      await saveRecent(pack);
+      openPack(pack);
+    } catch (err) {
+      console.error(err);
+      toast(err.message || "파일을 읽지 못했어요");
+    } finally {
+      opener.classList.remove("busy");
+      $("#opener-label").textContent = "파일 열기";
+    }
+  }
+
+  // ---------- 이벤트 ----------
+  $("#pick").addEventListener("change", (e) => { handleFiles(e.target.files); e.target.value = ""; });
+
+  const drop = $("#drop");
+  ["dragenter", "dragover"].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((t) => drop.addEventListener(t, () => drop.classList.remove("over")));
+  drop.addEventListener("drop", (e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); });
+  // 화면 아무 데나 떨어뜨려도 열리게 (iPad 드래그 앤 드롭)
+  document.addEventListener("dragover", (e) => e.preventDefault());
+  document.addEventListener("drop", (e) => { e.preventDefault(); if (!$("#viewer").classList.contains("on")) handleFiles(e.dataTransfer.files); });
+
+  $("#back").onclick = () => history.back();
+  $("#tuck").onclick = () => {
+    const tucked = $("#bar").classList.toggle("tucked");
+    $("#tuck").textContent = tucked ? "펼치기" : "접기";
+    $("#tuck").setAttribute("aria-expanded", String(!tucked));
+  };
+  window.addEventListener("popstate", () => { if ($("#viewer").classList.contains("on")) closeViewer(); });
+
+  window.addEventListener("message", (e) => {
+    if (e.source !== $("#frame").contentWindow || !currentPack || !e.data || !e.data.hvPage) return;
+    showPage(currentPack, e.data.hvPage).catch((err) => toast("페이지를 열지 못했어요: " + err.message));
+  });
+
+  $("#clear").onclick = async () => {
+    const all = await listRecent();
+    for (const p of all) await deleteRecent(p.id);
+    renderRecent();
+    toast(`최근 파일 ${all.length}개를 비웠어요`, async () => {
+      for (const p of all) await saveRecent(p);
+      renderRecent();
+    });
+  };
+
+  // 홈 화면 앱으로 이미 실행 중이면 설치 안내 숨김
+  if (navigator.standalone || matchMedia("(display-mode: standalone)").matches) $("#install").hidden = true;
+
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+
+  renderRecent();
+})();
+</script>
+</body>
+</html>

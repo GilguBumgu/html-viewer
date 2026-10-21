@@ -1,0 +1,14 @@
+{
+  "name": "HTML 바로보기",
+  "short_name": "HTML 보기",
+  "description": "HTML 파일을 골라 바로 실행하는 뷰어",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#f5f1e8",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

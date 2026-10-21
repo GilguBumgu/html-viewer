@@ -1,0 +1,54 @@
+/* Hallmark · genre: editorial · macrostructure: Index-First · theme: Almanac (red-pen variant)
+ * tone: utilitarian-editorial · anchor hue: 75 (oat paper) · accent: 28 (교정 빨간펜)
+ * nav: N9 edge-aligned · footer: Ft2 inline single line · enrichment: none
+ */
+:root {
+  --color-paper:      oklch(96.5% 0.012 80);
+  --color-paper-2:    oklch(93% 0.016 80);
+  --color-rule:       oklch(84% 0.012 75);
+  --color-muted:      oklch(47% 0.012 70);
+  --color-ink:        oklch(21% 0.014 60);
+  --color-accent:     oklch(54% 0.19 28);
+  --color-accent-ink: oklch(97% 0.01 80);
+  --color-focus:      oklch(54% 0.19 28);
+  --color-stage:      oklch(99% 0.004 80);
+
+  --font-display: "Gowun Batang", "AppleMyungjo", "Nanum Myeongjo", serif;
+  --font-body:    "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-outlier: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  --space-3xs: 0.25rem; --space-2xs: 0.5rem; --space-xs: 0.75rem;
+  --space-sm:  1rem;    --space-md:  1.5rem; --space-lg: 2rem;
+  --space-xl:  3rem;    --space-2xl: 4.5rem;
+
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-md:   1.25rem;
+  --text-xl:   clamp(1.95rem, 6vw + 0.5rem, 2.75rem);
+
+  --rule-hair: 1px;
+  --rule-heavy: 2px;
+  --radius-sm: 6px;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-short: 140ms;
+  --dur-mid:   220ms;
+
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-paper:      oklch(16% 0.01 70);
+    --color-paper-2:    oklch(20% 0.012 70);
+    --color-rule:       oklch(31% 0.01 70);
+    --color-muted:      oklch(70% 0.01 75);
+    --color-ink:        oklch(93% 0.008 80);
+    --color-accent:     oklch(66% 0.16 28);
+    --color-accent-ink: oklch(16% 0.01 70);
+    --color-focus:      oklch(70% 0.16 28);
+  }
+}
