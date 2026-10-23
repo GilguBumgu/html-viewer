@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>2028 정시와 영어 코칭 브리핑</title>
+  <link rel="preload" href="fonts/pretendard-subset.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <span class="tb-title">영어 코칭 브리핑</span>
+  <span class="tb-meta">고2 박범수</span>
+</div>
+
+<main>
+
+  <!-- 첫 화면: 큰 81.9가 스크롤에 맞춰 줄어들며 아래 숫자 줄 첫 칸으로 들어간다 -->
+  <header class="hero" id="top">
+    <h1 data-reveal>2028 정시 지도와<br>5회 학평 분석</h1>
+    <p class="hero-sub" data-reveal>수능100%로 뽑는 대학 11곳을 기준으로 지금 위치와 남은 거리를 정리했습니다. 영어는 마지막 장에서 자세히 말씀드릴게요.</p>
+
+    <div class="hero-num" aria-hidden="true">
+      <span class="hero-big" id="hero-big"><span data-key="now">81.9</span></span>
+    </div>
+    <div class="gauge" id="gauge" role="img" aria-label="국수탐 평균 백분위 눈금. 지금 81.9, 목표 89">
+      <span class="g-track"><span class="g-fill"></span><i class="g-goal"></i></span>
+      <span class="g-labels"><span>70</span><span class="g-now">지금 <b data-key="now">81.9</b></span><span class="g-target">목표 <b data-key="target">89</b></span><span>100</span></span>
+    </div>
+
+    <ul class="mets">
+      <li class="m-now"><span class="m-v"><span data-count="81.9" data-decimals="1" data-key="now">81.9</span></span><span class="m-l">국수탐 평균 백분위<br><span data-key="now-round">고2 9월</span> 학평 기준</span></li>
+      <li><span class="m-v"><span data-count="89" data-key="target">89</span></span><span class="m-l">생명·자연·공학<br>목표선</span></li>
+      <li><span class="m-v"><span data-count="11">11</span><small>곳</small></span><span class="m-l">수능100%·수능+출결<br>대학 (10곳 원문 확인)</span></li>
+      <li><span class="m-v"><span data-count="80">80</span><small>점</small></span><span class="m-l">영어 목표 (2등급)<br>한국사 목표 25점</span></li>
+    </ul>
+    <a class="jump" href="#english" data-reveal>영어 부분만 보기 <span aria-hidden="true">↓</span></a>
+    <ol class="toc print-only" aria-label="목차">
+      <li><b>01</b>정시 구조</li><li><b>02</b>반영 비율</li><li><b>03</b>위치</li><li><b>04</b>학평 5회</li>
+      <li><b>05</b>순서</li><li><b>06</b>영어</li><li><b>07</b>첫 수업 전</li>
+    </ol>
+  </header>
+
+  <!-- 01 정시 구조 -->
+  <section id="csat">
+    <div class="sh" data-reveal><span class="sh-no">01</span><span class="sh-name">정시 구조</span><span class="sh-meta">2028 시행계획 (2026.4)</span></div>
+    <h2 data-reveal>11개 대학이 수능만으로 뽑습니다.</h2>
+    <p class="lede" data-reveal>교과 성적과 서류 없이 수능만, 또는 수능에 출결을 더해 뽑는 전형입니다. 여대는 뺐습니다.</p>
+    <div class="cols">
+      <ol class="rows univs" id="univs"></ol>
+      <aside class="side">
+        <div data-reveal><h3>수능100%로 못 가는 대학</h3><p id="not-csat"></p></div>
+        <div data-reveal><h3>2028 방식 미확인</h3><p id="unconfirmed"></p></div>
+        <div data-reveal><h3>출결</h3><p>점수로 쓰는 곳은 중앙대 수능89 하나입니다. 공개된 서강대·세종대 표 기준으로 미인정 결석 3일 이하면 만점입니다.</p></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 02 반영 비율 -->
+  <section id="ratio">
+    <div class="sh" data-reveal><span class="sh-no">02</span><span class="sh-name">반영 비율</span><span class="sh-meta">자연계열 기준</span></div>
+    <h2 data-reveal>대부분 수학이 총점을 가릅니다.</h2>
+    <p class="lede" data-reveal>9곳 중 7곳이 수학을 35% 이상 반영합니다. 탐구 30%인 인하대·한국외대·경상국립대는 생명 강점을 살리기 좋은 곳입니다.</p>
+    <ul class="legend" data-reveal aria-hidden="true">
+      <li><i class="sw kor"></i>국어</li><li><i class="sw math"></i>수학</li><li><i class="sw eng"></i>영어</li><li><i class="sw tam"></i>탐구</li>
+    </ul>
+    <div class="stack" id="ratio-bars" role="img"></div>
+
+    <div class="hist pb">
+      <div class="hist-num" data-reveal><span class="big-n">8</span><span class="big-u">/9곳</span></div>
+      <div class="hist-body">
+        <h3 data-reveal>한국사 7등급이면 9곳 중 8곳에서 깎입니다.</h3>
+        <p class="note" data-reveal>9월 한국사는 12점(7등급)입니다. 경상국립대만 응시 여부만 봅니다.</p>
+        <table class="tbl" id="hist-rule" data-reveal></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 위치 -->
+  <section id="position">
+    <div class="sh" data-reveal><span class="sh-no">03</span><span class="sh-name">위치</span><span class="sh-meta">2026 정시 70%컷</span></div>
+    <h2 data-reveal>지금 <span data-key="now">81.9</span>, 목표 <span data-key="target">89</span>까지 <span data-key="gap">7.1</span> 남았습니다.</h2>
+    <p class="lede" data-reveal>국수탐 평균 백분위로 본 합격선입니다. 파란 선이 지금 위치, 검은 점선이 목표입니다.</p>
+    <div class="cutoffs" id="cutoffs" role="img"></div>
+    <p class="note" data-reveal>숭실대는 2025 기준, 가톨릭·상명·가천과 명지대는 추정치입니다.</p>
+
+    <h3 class="sub-h pb" data-reveal>필요한 등급 조합</h3>
+    <div class="scroll-x"><table class="tbl combos" id="combos" data-reveal></table></div>
+    <p class="pull" data-reveal>국어나 수학 하나만 2등급이 되어도 85~88, 숭실대 상위학과권입니다. 둘 다 올리면 89~92, 건국대 생명·바이오권입니다.</p>
+  </section>
+
+  <!-- 04 학평 5회 -->
+  <section id="mocks">
+    <div class="sh" data-reveal><span class="sh-no">04</span><span class="sh-name">학평 5회</span><span class="sh-meta">성적통지표 5장</span></div>
+    <h2 data-reveal>9월에 처음으로 국어·수학 3등급.</h2>
+    <p class="lede" data-reveal>고1 9월부터 고2 9월까지입니다. 다섯 번 중 9월이 가장 높았지만 한 번뿐이라, 10월에 유지되는지 봐야 합니다.</p>
+
+    <div class="round" id="round-card" data-reveal>
+      <div class="round-nav">
+        <button class="nav-btn" id="round-prev" type="button"><span aria-hidden="true">←</span><span class="nav-label"></span></button>
+        <h3 class="round-title" id="round-title" aria-live="polite">고2 9월</h3>
+        <button class="nav-btn" id="round-next" type="button"><span class="nav-label"></span><span aria-hidden="true">→</span></button>
+      </div>
+      <div class="round-body" id="round-body"></div>
+      <p class="note round-hint">휴대폰에서는 표를 옆으로 밀어서 회차를 넘길 수 있습니다.</p>
+    </div>
+
+    <div class="split pb">
+      <div>
+        <h3 class="sub-h" data-reveal>국수탐 평균 백분위</h3>
+        <ol class="trend" id="trend" role="img"></ol>
+        <p class="note" data-reveal>점선은 목표 89. (국어 + 수학 + 탐구 두 과목 평균) ÷ 3으로 계산했습니다.</p>
+      </div>
+      <ul class="findings">
+        <li data-reveal><b>국어</b>6월 5등급(백분위 50.2)에서 9월 3등급(84.5)으로 올랐습니다. 수학도 처음 3등급입니다.</li>
+        <li data-reveal><b>영어</b>고1 10월에 72점, 3등급을 받은 적이 있습니다. 그때도 빈칸 4문항은 다 틀렸습니다.</li>
+        <li data-reveal><b>통합과학</b>3월 백분위 97.1(1등급)에서 9월 74.7(4등급)로 떨어졌습니다. 6·9월 오답이 화학과 지구·우주에 몰려 있습니다.</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-h pb" data-reveal>과목별 등급 흐름</h3>
+    <div class="scroll-x" tabindex="0" role="region" aria-label="회차별 과목 등급 표, 옆으로 밀어서 보기">
+      <table class="heat grades" id="grade-table"></table>
+    </div>
+    <p class="note" data-reveal>진할수록 등급이 낮습니다.</p>
+
+    <h3 class="sub-h" data-reveal>과목별로 점수를 만들 곳</h3>
+    <ol class="rows subj" id="subject-plan"></ol>
+  </section>
+
+  <!-- 05 순서 -->
+  <section id="order">
+    <div class="sh" data-reveal><span class="sh-no">05</span><span class="sh-name">순서</span><span class="sh-meta">문항 수 × 배점 × 오답률</span></div>
+    <h2 data-reveal>점수가 가장 빨리 오르는 순서.</h2>
+    <p class="lede" data-reveal>수학 15~21번과 29~30번 고난도는 이 여섯 개 다음입니다.</p>
+    <ol class="rank" id="priority"></ol>
+    <h3 class="sub-h pb" data-reveal>겨울 계획(11월~2월)에 더할 것</h3>
+    <p class="note" data-reveal>정해 둔 계획은 그대로 두고 약점만 더합니다. 한국사는 지금 계획에 빠져 있는 유일한 과목입니다.</p>
+    <ol class="rows winter" id="winter"></ol>
+  </section>
+
+  <!-- 06 영어 -->
+  <section id="english">
+    <div class="sh" data-reveal><span class="sh-no">06</span><span class="sh-name">영어</span><span class="sh-meta">학평 5회 채점 결과</span></div>
+    <h2 data-reveal>영어는 빈칸에서 무너집니다.</h2>
+    <p class="lede" data-reveal>여기부터 선생님께 직접 드리는 이야기입니다. 듣기는 거의 틀리지 않고, 글 전체를 한 문장으로 압축하는 문제에서 점수가 빠집니다.</p>
+    <ul class="mets eng-mets">
+      <li><span class="m-v"><span data-count="65" data-key="eng-raw">65</span><small>점</small></span><span class="m-l"><span data-key="eng-label">고2 9월</span> 원점수, <span data-key="eng-grade">4</span>등급<br>70점까지 5점</span></li>
+      <li class="accent"><span class="m-v"><span data-count="90" data-key="blank">90</span><small>%</small></span><span class="m-l">빈칸 31~34번<br><span data-rounds>5</span>회 누적 오답률</span></li>
+      <li><span class="m-v"><span data-count="6" data-key="listen">6</span><small>%</small></span><span class="m-l">듣기 1~17번<br><span data-rounds>5</span>회 누적 오답률</span></li>
+      <li><span class="m-v"><span data-count="80">80</span><small>점</small></span><span class="m-l">최종 목표<br>2028 수능 2등급</span></li>
+    </ul>
+
+    <div class="split pb">
+      <div>
+        <h3 class="sub-h" data-reveal>유형별 누적 오답률</h3>
+        <div class="bars" id="type-bars" role="img" aria-label="유형별 누적 오답률 막대그래프"></div>
+      </div>
+      <div>
+        <h3 class="sub-h" data-reveal>4등급이 깎는 점수</h3>
+        <div class="bars" id="weight-bars" role="img" aria-label="대학별 영어 반영 비중과 4등급일 때 잃는 점수"></div>
+        <p class="note" id="weight-other"></p>
+      </div>
+    </div>
+
+    <h3 class="sub-h pb" data-reveal>회차별 오답</h3>
+    <div class="scroll-x" tabindex="0" role="region" aria-label="회차별 유형 오답 표, 옆으로 밀어서 보기">
+      <table class="heat" id="heat"></table>
+    </div>
+    <p class="note" data-reveal>틀린 문항 수/전체 문항 수. 점선 칸인 10월은 결과가 나오면 채웁니다.</p>
+
+    <h3 class="sub-h" data-reveal>매번 틀리는 문항</h3>
+    <div class="grid45" id="grid45" role="img" aria-label="45문항 지도. 번호마다 그 유형의 누적 오답률로 색을 칠함. 빈칸 31~34번이 가장 진하고, 21·23·24번은 5회 중 4회 오답"></div>
+    <p class="note" data-reveal>번호마다 그 유형의 누적 오답률로 칠했습니다. 테두리는 5회 중 4회 틀린 21번(함축), 23번(주제), 24번(제목)으로, 셋 다 빈칸과 뿌리가 같습니다.</p>
+
+    <h3 class="sub-h pb" data-reveal>약한 영역과 처방</h3>
+    <ol class="rows fixes" id="fixes">
+      <li><b>빈칸 31~34</b><span>글의 요지를 빈칸 자리에 맞게 바꿔 말하지 못합니다.</span><span class="fix">요지를 한 문장으로 쓴 뒤 빈칸 위치에 맞게 바꾸기</span></li>
+      <li><b>함축·주제·제목</b><span>21·23·24번. 글 전체를 압축하는 힘이 부족합니다.</span><span class="fix">however 이후 문장과 반복되는 핵심어 표시</span></li>
+      <li><b>어법 29</b><span>관계사, 동사·준동사 판단에서 틀립니다.</span><span class="fix">빈출 어법 10개 정리</span></li>
+      <li><b>순서·삽입 36~39</b><span>대명사·연결어 단서를 놓칩니다.</span><span class="fix">단서를 표시한 뒤 문장 배열</span></li>
+    </ol>
+    <p class="pull" data-reveal>시험에서는 듣기 → 18~30번 → 35~45번 순서로 풀고, 빈칸 31~34번은 마지막에 풉니다. 빈칸은 한 문항에 2분을 넘기지 않습니다.</p>
+  </section>
+
+  <!-- 07 함께 정할 것 -->
+  <section id="ask">
+    <div class="sh" data-reveal><span class="sh-no">07</span><span class="sh-name">첫 수업 전</span><span class="sh-meta">선생님과 정할 것</span></div>
+    <h2 data-reveal>첫 수업 전에 함께 정하고 싶은 것.</h2>
+    <ol class="checks">
+      <li>정답 근거를 지문 속 문장으로 짚어 주기</li>
+      <li>오답 원인을 어휘, 구문, 논리, 시간 중 하나로 분류해 기록</li>
+      <li>월 1회 70분 실전 모의고사와 점수 기록</li>
+      <li>교재, 수업 요일, 3월 학평 이후 횟수 조정 기준</li>
+    </ol>
+    <a class="btn" href="pdf/briefing.pdf" download="2028-정시-영어-코칭-브리핑.pdf">PDF로 받기</a>
+    <p class="note" id="pdf-msg" aria-live="polite"></p>
+    <p class="colophon">근거: 2028학년도 각 대학 입학전형 시행계획(2026.4), 2026 정시 입시결과, 학평 성적통지표 5장(2025.9~2026.9).</p>
+  </section>
+
+</main>
+<script src="main.js" defer></script>
+</body>
+</html>
