@@ -23,8 +23,8 @@
   /* 리퀴드 글라스: 반투명 판 + 위쪽 빛 + 아래 얕은 그림자 (2026.10.26 학생 요청) */
   --glass: #FFFFFF8F; --glass-strong: #FFFFFFC7; --glass-edge: #FFFFFFE6; --glass-rim: #0F2A4A14;
   --glass-sheen: #FFFFFFB3; --glass-sheen-0: #FFFFFF00;
-  --glass-shadow: 0 1px 1px #0F2A4A0D, 0 10px 28px -10px #0F3C7A33, 0 28px 56px -28px #0F3C7A26;
-  --glass-shadow-lift: 0 2px 2px #0F2A4A0F, 0 16px 36px -12px #0F3C7A40, 0 36px 64px -28px #0F3C7A2E;
+  --glass-shadow: 0 1px 1px #1111110A, 0 10px 28px -10px #1111111F, 0 28px 56px -28px #11111114;
+  --glass-shadow-lift: 0 2px 2px #1111110D, 0 16px 36px -12px #11111129, 0 36px 64px -28px #1111111A;
   --glass-inner: inset 0 1px 0 #FFFFFFF2, inset 0 -1px 0 #FFFFFF59, inset 0 0 0 1px #FFFFFF59;
   --glass-blur: saturate(180%) blur(20px);
   --r-glass: 22px; --r-glass-sm: 14px; --r-pill: 999px;
