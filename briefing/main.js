@@ -96,8 +96,27 @@ function heroFlight() {
 
 // ---------- 01 정시 구조 ----------
 function renderCsat(plan) {
-  $('#univs').innerHTML = plan.univs.map((u) =>
-    `<li><b>${u.univ}</b><span class="track">${u.track}</span><span>${u.note}</span></li>`).join('');
+  const pad = (n) => String(n).padStart(2, '0'), total = plan.univs.length;
+  // 배경 한 장 = 사진(있으면) + 로고(있으면) + 크게 흐린 대학 이름. 파일이 없거나 못 불러오면 이름만 남는다
+  $('#uv-layers').innerHTML = plan.univs.map((u, i) => `<figure class="uv-bg${i ? '' : ' on'}">
+      ${u.photo ? `<img class="uv-photo" src="${u.photo}" alt="" loading="lazy" decoding="async">` : ''}
+      ${u.logo ? `<img class="uv-logo" src="${u.logo}" alt="" loading="lazy" decoding="async">` : ''}
+      <span class="uv-mark">${u.univ}</span></figure>`).join('');
+  $$('#uv-layers img').forEach((img) => img.addEventListener('error', () => img.remove()));
+  $('#univs').innerHTML = plan.univs.map((u, i) => `<li class="uv-step${i ? '' : ' on'}">
+      <span class="uv-no">${pad(i + 1)} / ${total}</span><h3 class="uv-name">${u.univ}</h3>
+      <p class="uv-track">${u.track}</p><p class="uv-note">${u.note}</p>
+      ${u.credit ? `<p class="uv-credit">배경 사진: ${u.credit}</p>` : ''}</li>`).join('');
+  // 화면 가운데 띠(위아래 45%를 뺀 곳)에 들어온 대학이 '지금 대학'
+  const steps = $$('.uv-step'), layers = $$('.uv-bg');
+  const show = (i) => {
+    steps.forEach((s, j) => s.classList.toggle('on', j === i));
+    layers.forEach((l, j) => l.classList.toggle('on', j === i));
+  };
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) show(steps.indexOf(e.target)); }),
+    { rootMargin: '-45% 0px -45% 0px' });
+  steps.forEach((s) => io.observe(s));
   $('#not-csat').textContent = plan.notByCsat.join(', ');
   $('#unconfirmed').textContent = plan.unconfirmed.join(', ');
 }

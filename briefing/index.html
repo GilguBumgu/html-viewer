@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<!-- 배경: 은은하게 움직이는 빛 (transform만, 움직임 줄이기면 멈춤) -->
+<div class="ambient" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
 
 <div class="topbar">
   <span class="tb-title">영어 코칭 브리핑</span>
@@ -48,9 +50,13 @@
     <div class="sh" data-reveal><span class="sh-no">01</span><span class="sh-name">정시 구조</span><span class="sh-meta">2028 시행계획 (2026.4)</span></div>
     <h2 data-reveal>11개 대학이 수능만으로 뽑습니다.</h2>
     <p class="lede" data-reveal>교과 성적과 서류 없이 수능만, 또는 수능에 출결을 더해 뽑는 전형입니다. 여대는 뺐습니다.</p>
+    <!-- 대학이 하나씩 화면 가운데로 오면 뒤 배경(사진·로고·이름)이 그 대학으로 바뀐다. 배경은 sticky로 따라오기만 하고 스크롤은 가로채지 않음 -->
+    <div class="univ-tour">
+      <div class="uv-stage" aria-hidden="true"><div class="uv-layers" id="uv-layers"></div></div>
+      <ol class="uv-steps" id="univs"></ol>
+    </div>
     <div class="cols">
-      <ol class="rows univs" id="univs"></ol>
-      <aside class="side">
+      <aside class="side side-row">
         <div data-reveal><h3>수능100%로 못 가는 대학</h3><p id="not-csat"></p></div>
         <div data-reveal><h3>2028 방식 미확인</h3><p id="unconfirmed"></p></div>
         <div data-reveal><h3>출결</h3><p>점수로 쓰는 곳은 중앙대 수능89 하나입니다. 공개된 서강대·세종대 표 기준으로 미인정 결석 3일 이하면 만점입니다.</p></div>

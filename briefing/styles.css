@@ -17,6 +17,9 @@
   --ink: #111111; --ink-2: #6B7079;
   --accent: #007EEC; --accent-ink: #0062BA; --accent-soft: #E6F2FD;
   /* 진할수록 '자주 틀림·낮은 등급' (파랑 한 가지 색의 농도) */
+  /* 배경 빛: 파랑 계열 세 가지를 아주 옅게 (글자 대비에 영향 없는 농도) */
+  --glow-1: #007EEC3D; --glow-2: #5AC8FA4D; --glow-3: #7FE3D442;
+  --paper-glass: #FFFFFFB8;
   --heat-0: #F4F5F7; --heat-1: #E6F2FD; --heat-2: #B9DAFA; --heat-3: #6FB3F4; --heat-4: #0062BA;
   --font: "Pretendard Site", "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK KR", system-ui, sans-serif;
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px; --s16: 64px; --s24: 96px; --s32: 128px;
@@ -24,7 +27,7 @@
   --rule: 8px;
   --r1: 2px; --r2: 4px;
   --dur-in: 560ms; --dur-out: 240ms; --dur-draw: 800ms; --stagger: 60ms;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.4, 0, 1, 1); --ease-io: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 * { box-sizing: border-box; }
@@ -32,7 +35,7 @@ html, body { overflow-x: clip; background: var(--paper); }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body { margin: 0; color: var(--ink); font: 400 17px/1.6 var(--font); letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums; word-break: keep-all; overflow-wrap: break-word; -webkit-font-smoothing: antialiased; }
-main { max-width: 1200px; margin: 0 auto; padding: 0 max(var(--gutter), env(safe-area-inset-right)) env(safe-area-inset-bottom) max(var(--gutter), env(safe-area-inset-left)); }
+main { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 max(var(--gutter), env(safe-area-inset-right)) env(safe-area-inset-bottom) max(var(--gutter), env(safe-area-inset-left)); }
 h1, h2, h3 { font-style: normal; margin: 0; min-width: 0; }
 h1 { font-size: clamp(40px, 8.4vw, 96px); font-weight: 800; line-height: 1.08; letter-spacing: -0.045em; }
 h2 { font-size: clamp(30px, 5.6vw, 56px); font-weight: 750; line-height: 1.18; letter-spacing: -0.035em; max-width: 16em; margin-bottom: var(--s5); }
@@ -44,9 +47,9 @@ b { font-weight: 700; }
 a { color: inherit; }
 
 /* 위쪽 띠 */
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper-glass); -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px); }
 .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; display: flex; justify-content: space-between; gap: var(--s4);
-  padding: var(--s3) max(var(--gutter), env(safe-area-inset-right, 0px)) var(--s3) max(var(--gutter), env(safe-area-inset-left, 0px)); background: var(--paper); border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 600; }
+  padding: var(--s3) max(var(--gutter), env(safe-area-inset-right, 0px)) var(--s3) max(var(--gutter), env(safe-area-inset-left, 0px)); background: var(--paper-glass); -webkit-backdrop-filter: saturate(180%) blur(16px); backdrop-filter: saturate(180%) blur(16px); border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 600; }
 .tb-meta { color: var(--ink-2); font-weight: 500; }
 
 /* 섹션: 굵은 선 + 큰 번호 + 짧은 이름 + 오른쪽 출처 → 문장 제목 */
@@ -95,6 +98,47 @@ section#english { padding-top: var(--s32); }
 }
 .jump { display: inline-flex; align-items: center; gap: var(--s2); min-height: 44px; margin-top: var(--s8); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--ink); }
 
+
+/* 배경 빛: 큰 원형 빛 세 개가 20~40초에 걸쳐 천천히 떠다님 (transform만) */
+.ambient { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; width: 80vmax; height: 80vmax; border-radius: 50%; will-change: transform; }
+.b1 { top: -40vmax; left: -30vmax; background: radial-gradient(closest-side, var(--glow-1), transparent); animation: drift1 28s var(--ease-io) infinite alternate; }
+.b2 { top: 10vh; right: -45vmax; background: radial-gradient(closest-side, var(--glow-2), transparent); animation: drift2 34s var(--ease-io) infinite alternate; }
+.b3 { bottom: -50vmax; left: 0; background: radial-gradient(closest-side, var(--glow-3), transparent); animation: drift3 40s var(--ease-io) infinite alternate; }
+@keyframes drift1 { to { transform: translate(22vmax, 16vmax) scale(1.18); } }
+@keyframes drift2 { to { transform: translate(-26vmax, 14vmax) scale(0.9); } }
+@keyframes drift3 { to { transform: translate(18vmax, -20vmax) scale(1.12); } }
+
+/* 01 대학 소개: 대학이 화면 가운데로 오면 뒤 배경이 그 대학으로 바뀜 */
+.univ-tour { position: relative; margin-top: var(--s8); }
+.uv-stage { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; width: 100vw; margin-left: calc(50% - 50vw);
+  overflow: hidden; pointer-events: none; }
+.uv-layers, .uv-bg { position: absolute; inset: 0; margin: 0; }
+.uv-bg { opacity: 0; transform: scale(1.06); transition: opacity 700ms var(--ease-out), transform 1600ms var(--ease-out); }
+.uv-bg.on { opacity: 1; transform: scale(1); }
+.uv-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; }
+.uv-logo { position: absolute; right: 6vw; top: 18svh; width: min(34vw, 300px); opacity: 0.12; }
+.uv-mark { position: absolute; right: -2vw; bottom: 8svh; font-size: clamp(110px, 24vw, 300px); font-weight: 900; line-height: 1;
+  letter-spacing: -0.06em; white-space: nowrap; color: var(--accent); opacity: 0.08; }
+.uv-count { position: absolute; right: max(var(--gutter), env(safe-area-inset-right, 0px)); top: calc(env(safe-area-inset-top, 0px) + 72px);
+  font-size: 18px; font-weight: 800; color: var(--ink-2); }
+.uv-steps { position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; }
+.uv-step { min-height: 64svh; display: flex; flex-direction: column; justify-content: center; gap: var(--s2); max-width: 34em;
+  opacity: 0.3; transition: opacity var(--dur-in) var(--ease-out); }
+.uv-step.on { opacity: 1; }
+.uv-step > * { margin: 0; }
+.uv-no { font-weight: 800; color: var(--accent-ink); }
+.uv-name { font-size: clamp(48px, 9vw, 96px); font-weight: 800; line-height: 1.05; letter-spacing: -0.05em; }
+.uv-track { font-size: clamp(19px, 2.4vw, 24px); font-weight: 700; color: var(--accent-ink); }
+.uv-note { font-size: 18px; color: var(--ink-2); }
+.uv-credit { font-size: 16px; color: var(--ink-2); }
+@media (max-width: 720px) {
+  .uv-step { min-height: 56svh; }
+  .uv-mark { right: auto; left: 50%; transform: translateX(-50%); bottom: 6svh; font-size: 30vw; }
+  .uv-logo { left: 50%; right: auto; transform: translateX(-50%); top: auto; bottom: 30svh; width: 46vw; }
+}
+@media (min-width: 860px) { .side-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cols:has(.side-row) { display: block; margin-top: var(--s16); }
 
 /* 두 단 배치 (넓은 화면) */
 .cols, .split { display: grid; gap: var(--s12); }
@@ -331,6 +375,7 @@ a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-
   .js .rank li, .js .stack-row, .js .seg-s, .js .cut-row, .js .mk, .js .findings li, .js .cell.repeat::after,
   .js .round-body, .js .g-fill, .js .g-goal, .js .sh::before { opacity: 1 !important; transform: none !important; }
   .hero-num { display: none; }
+  .blob { animation: none !important; }
 }
 
 /* ---------- 인쇄(PDF): tools/build_pdf.js가 이 규칙으로 A4 PDF를 만든다 ---------- */
@@ -339,7 +384,12 @@ a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-
 @media print {
   html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; scroll-behavior: auto; }
   main { max-width: none; padding: 0; }
-  .topbar, .jump, .btn, .round-nav .nav-btn, .round-hint, .hero-num { display: none !important; }
+  .topbar, .jump, .btn, .round-nav .nav-btn, .round-hint, .hero-num, .ambient, .uv-stage { display: none !important; }
+  body::before { display: none; }
+  .uv-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4) var(--s8); border-top: 1px solid var(--ink); padding-top: var(--s4); }
+  .uv-step { min-height: 0; opacity: 1 !important; gap: var(--s1); break-inside: avoid; }
+  .uv-name { font-size: 28px; }
+  .uv-track, .uv-note { font-size: 16px; }
   .print-only { display: revert; }
   /* 움직임 없이 완성된 상태로 */
   *, *::before, *::after { transition: none !important; animation: none !important; }
