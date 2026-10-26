@@ -122,6 +122,7 @@ function renderCsat(plan) {
         <dt>한국사</dt><dd>${u.hist}</dd>
         <dt>출결</dt><dd>${u.att || '반영 안 함'}</dd>
         <dt>학과</dt><dd>${u.units}</dd>
+        <dt>입결</dt><dd>${u.cut && u.cut.length ? u.cut.map((c) => `${c.unit}(${c.group}) <b>${c.c26}</b>${c.c25 !== null ? ` <small>2025 ${c.c25}</small>` : ''}`).join('<br>') + '<br><small>2026 70%컷, 국수탐 백분위</small>' : '학과별 자료 미확보'}</dd>
       </dl>
       <ul class="uv-memo">${u.feats.map((f) => `<li>${f}</li>`).join('')}</ul>
       <p class="uv-me"><b>나에게</b> ${u.me}</p>
@@ -188,6 +189,7 @@ function renderCutoffs(plan, now) {
   }).join('');
   $('#cutoffs').setAttribute('aria-label', `2026 정시 70%컷과 내 위치. 지금 ${now}, 목표 ${plan.target}. ` +
     plan.cutoffs.map((c) => `${c.name} ${c.kind === 'range' ? `${c.lo}~${c.hi}` : c.pct}`).join(', '));
+  $('#cut-note').textContent = `${plan.cutoffSource}. 2028은 5등급제·개편 수능 첫해라 대학 간 서열을 보는 용도로만 씁니다. 학과별 표를 못 구한 곳: ${plan.cutoffMissing.join(', ')}.`;
   $('#combos').innerHTML = '<tr><th>백분위</th><th>국어</th><th>수학</th><th>탐구</th><th>예시</th></tr>' +
     plan.combos.map((c) => `<tr><td>${c.pct}</td>${['kor', 'math', 'tam'].map((k) =>
       `<td class="num g${gradeLevel(c[k])}">${c[k]}</td>`).join('')}<td>${c.example}</td></tr>`).join('');
