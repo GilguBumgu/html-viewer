@@ -112,7 +112,7 @@ function renderCsat(plan) {
     : `${r.type ? r.type + '형 ' : ''}국 ${r.kor} · 수 ${r.math} · 영 ${r.eng ?? engWord(u)} · 탐 ${r.tam}`;
   const card = (u, n) => `<article class="uv-card">
       <span class="uv-no">${pad(n)} / ${U.length}</span>
-      <h4 class="uv-name">${u.univ}</h4>
+      <div class="uv-head"><h4 class="uv-name">${u.univ}</h4>${u.logo ? `<img class="uv-logo-in" src="${u.logo}" alt="${u.univ} 로고" loading="lazy" decoding="async">` : ''}</div>
       <p class="uv-track">${u.track}</p>
       <dl class="uv-facts">
         <dt>모집</dt><dd>${u.group}</dd>
@@ -130,10 +130,11 @@ function renderCsat(plan) {
     </article>`;
   $('#univs').innerHTML = pairs.map((pr, i) => `<li class="uv-step${i ? '' : ' on'}">${pr.map((u, j) => card(u, i * 2 + j + 1)).join('')}</li>`).join('');
   // 배경: 쌍마다 두 대학 이름을 크게 흐리게 (사진·로고 파일이 있으면 첫 대학 것을 깔기)
-  $('#uv-layers').innerHTML = pairs.map((pr, i) => `<figure class="uv-bg${i ? '' : ' on'}">
-      ${pr[0].photo ? `<img class="uv-photo" src="${pr[0].photo}" alt="" loading="lazy" decoding="async">` : ''}
+  // 배경: 왼쪽은 첫 대학, 오른쪽은 둘째 대학 대표색 그라데이션 (휴대폰은 위·아래)
+  $('#uv-layers').innerHTML = pairs.map((pr, i) => `<figure class="uv-bg${i ? '' : ' on'}" style="--c1:${pr[0].color || 'transparent'};--c2:${(pr[1] || pr[0]).color || 'transparent'}">
+      <i class="uv-tint"></i>
       <span class="uv-mark">${pr.map((u) => `<span>${u.univ}</span>`).join('')}</span></figure>`).join('');
-  $$('#uv-layers img').forEach((img) => img.addEventListener('error', () => img.remove()));
+  $$('#uv-layers img, .uv-logo-in').forEach((img) => img.addEventListener('error', () => img.remove()));
   const steps = $$('.uv-step'), layers = $$('.uv-bg');
   const show = (i) => {
     steps.forEach((s, j) => s.classList.toggle('on', j === i));

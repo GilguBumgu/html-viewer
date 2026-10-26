@@ -32,7 +32,9 @@
       ],
       "me": "9월 기준 탐구(통합사회 87.3)가 수학(80.3)보다 높아 탐구에 40%. 한국사 7등급이면 5점 감점으로 큼",
       "page": 35,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/skku.png",
+      "color": "#00843D"
     },
     {
       "univ": "고려대",
@@ -89,7 +91,9 @@
           "c25": 94.8,
           "c26": 95
         }
-      ]
+      ],
+      "logo": "media/univs/korea.png",
+      "color": "#8B0029"
     },
     {
       "univ": "서강대",
@@ -149,7 +153,9 @@
           "c25": 89.3,
           "c26": 94
         }
-      ]
+      ],
+      "logo": "media/univs/sogang.png",
+      "color": "#B01217"
     },
     {
       "univ": "중앙대",
@@ -209,7 +215,9 @@
           "c25": 72.7,
           "c26": 78
         }
-      ]
+      ],
+      "logo": "media/univs/cau.png",
+      "color": "#136EAC"
     },
     {
       "univ": "경희대",
@@ -260,7 +268,9 @@
           "c25": 90.0,
           "c26": 93
         }
-      ]
+      ],
+      "logo": "media/univs/khu.png",
+      "color": "#26336A"
     },
     {
       "univ": "건국대",
@@ -320,7 +330,9 @@
           "c25": 91.5,
           "c26": 91
         }
-      ]
+      ],
+      "logo": "media/univs/konkuk.png",
+      "color": "#3E9E31"
     },
     {
       "univ": "인하대",
@@ -371,7 +383,9 @@
           "c25": 85.5,
           "c26": 89
         }
-      ]
+      ],
+      "logo": "media/univs/inha.png",
+      "color": "#0677BF"
     },
     {
       "univ": "한국외대",
@@ -412,7 +426,9 @@
       ],
       "me": "A형(국어 30%) + 통합사회 반영. 영어만 올리면 가장 유리한 구조",
       "page": 16,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/hufs.png",
+      "color": "#002843"
     },
     {
       "univ": "세종대",
@@ -457,7 +473,9 @@
           "c25": null,
           "c26": 84.67
         }
-      ]
+      ],
+      "logo": "media/univs/sejong.png",
+      "color": "#C5062E"
     },
     {
       "univ": "한국항공대",
@@ -489,7 +507,9 @@
       ],
       "me": "생명 계열은 없음. 공학 희망 시 후보",
       "page": 15,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/kau.png",
+      "color": "#022971"
     },
     {
       "univ": "숭실대",
@@ -521,7 +541,9 @@
       ],
       "me": "영어 3등급만 돼도 손해가 2점",
       "page": 40,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/ssu.png",
+      "color": "#1A99B5"
     },
     {
       "univ": "국민대",
@@ -559,7 +581,9 @@
           "c25": null,
           "c26": 86
         }
-      ]
+      ],
+      "logo": "media/univs/kookmin.png",
+      "color": "#5FA545"
     },
     {
       "univ": "광운대",
@@ -604,7 +628,9 @@
           "c25": null,
           "c26": 81
         }
-      ]
+      ],
+      "logo": "media/univs/kw.png",
+      "color": "#7F1414"
     },
     {
       "univ": "명지대",
@@ -643,7 +669,9 @@
           "c25": 77.7,
           "c26": 78.7
         }
-      ]
+      ],
+      "logo": "media/univs/mju.png",
+      "color": "#003E80"
     },
     {
       "univ": "인천대",
@@ -694,7 +722,9 @@
           "c25": 73.7,
           "c26": 78
         }
-      ]
+      ],
+      "logo": "media/univs/inu.png",
+      "color": "#1C4BA0"
     },
     {
       "univ": "가톨릭대",
@@ -727,7 +757,9 @@
       ],
       "me": "국어가 높으면 국어 40%. 통합사회 반영",
       "page": 30,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/cuk.png",
+      "color": "#0C2E87"
     },
     {
       "univ": "상명대",
@@ -772,7 +804,9 @@
           "c25": 83.7,
           "c26": 83
         }
-      ]
+      ],
+      "logo": "media/univs/smu.png",
+      "color": "#0131E8"
     },
     {
       "univ": "아주대",
@@ -804,7 +838,9 @@
       ],
       "me": "한국사 7등급 -20점, 영어 4등급 -14점, 통합과학 25%까지 지금 약점이 모두 겹침",
       "page": 9,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/ajou.png",
+      "color": "#004B93"
     },
     {
       "univ": "가천대",
@@ -837,7 +873,9 @@
       ],
       "me": "잘 본 과목부터 높은 비율이라 과목별 편차가 있어도 덜 불리",
       "page": 26,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/gachon.png",
+      "color": "#135492"
     },
     {
       "univ": "경상국립대",
@@ -868,7 +906,9 @@
       ],
       "me": "영어 20%",
       "page": null,
-      "cut": []
+      "cut": [],
+      "logo": "media/univs/gnu.png",
+      "color": "#0199DA"
     }
   ],
   "notByCsat": [
