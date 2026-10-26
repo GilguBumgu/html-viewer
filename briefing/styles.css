@@ -110,7 +110,7 @@ section#english { padding-top: var(--s32); }
 @keyframes drift3 { to { transform: translate(18vmax, -20vmax) scale(1.12); } }
 
 /* 01 대학 소개: 대학이 화면 가운데로 오면 뒤 배경이 그 대학으로 바뀜 */
-.univ-tour { position: relative; margin-top: var(--s8); }
+.univ-tour { position: relative; margin-top: var(--s8); overflow: clip; }
 .uv-stage { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; width: 100vw; margin-left: calc(50% - 50vw);
   overflow: hidden; pointer-events: none; }
 .uv-layers, .uv-bg { position: absolute; inset: 0; margin: 0; }
@@ -118,25 +118,46 @@ section#english { padding-top: var(--s32); }
 .uv-bg.on { opacity: 1; transform: scale(1); }
 .uv-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; }
 .uv-logo { position: absolute; right: 6vw; top: 18svh; width: min(34vw, 300px); opacity: 0.12; }
-.uv-mark { position: absolute; right: -2vw; bottom: 8svh; font-size: clamp(110px, 24vw, 300px); font-weight: 900; line-height: 1;
+.uv-mark { position: absolute; right: -2vw; bottom: 8svh; font-size: clamp(90px, 16vw, 220px); font-weight: 900; line-height: 1;
   letter-spacing: -0.06em; white-space: nowrap; color: var(--accent); opacity: 0.08; }
 .uv-count { position: absolute; right: max(var(--gutter), env(safe-area-inset-right, 0px)); top: calc(env(safe-area-inset-top, 0px) + 72px);
   font-size: 18px; font-weight: 800; color: var(--ink-2); }
 .uv-steps { position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; }
-.uv-step { min-height: 64svh; display: flex; flex-direction: column; justify-content: center; gap: var(--s2); max-width: 34em;
-  opacity: 0.3; transition: opacity var(--dur-in) var(--ease-out); }
+.uv-step { min-height: 80svh; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s8); align-content: center;
+  padding: var(--s12) 0; opacity: 0.25; transition: opacity var(--dur-in) var(--ease-out); }
 .uv-step.on { opacity: 1; }
-.uv-step > * { margin: 0; }
+.uv-card { display: grid; gap: var(--s2); align-content: start; min-width: 0; padding: var(--s6); border-top: var(--rule) solid var(--ink);
+  background: var(--paper-glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.uv-card > * { margin: 0; }
 .uv-no { font-weight: 800; color: var(--accent-ink); }
-.uv-name { font-size: clamp(48px, 9vw, 96px); font-weight: 800; line-height: 1.05; letter-spacing: -0.05em; }
-.uv-track { font-size: clamp(19px, 2.4vw, 24px); font-weight: 700; color: var(--accent-ink); }
-.uv-note { font-size: 18px; color: var(--ink-2); }
-.uv-credit { font-size: 16px; color: var(--ink-2); }
-@media (max-width: 720px) {
-  .uv-step { min-height: 56svh; }
-  .uv-mark { right: auto; left: 50%; transform: translateX(-50%); bottom: 6svh; font-size: 30vw; }
-  .uv-logo { left: 50%; right: auto; transform: translateX(-50%); top: auto; bottom: 30svh; width: 46vw; }
+.uv-name { font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -0.045em; }
+.uv-track { font-size: 19px; font-weight: 700; color: var(--accent-ink); }
+.uv-facts { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: var(--s2) var(--s3); margin: var(--s3) 0 0; padding-top: var(--s3); border-top: 1px solid var(--line); }
+.uv-facts dt { color: var(--ink-2); font-weight: 600; }
+.uv-facts dd { margin: 0; font-weight: 500; }
+.uv-facts small { color: var(--ink-2); font-size: 16px; font-weight: 400; }
+.uv-memo { margin: var(--s2) 0 0; padding: var(--s3) 0 0 var(--s5); border-top: 1px solid var(--line); color: var(--ink-2); display: grid; gap: var(--s1); }
+.uv-me { padding: var(--s3) var(--s4); background: var(--accent-soft); }
+.uv-me b { display: block; color: var(--accent-ink); }
+.uv-src { color: var(--ink-2); font-size: 16px; }
+.uv-mark { display: grid; justify-items: end; }
+@media (max-width: 820px) {
+  .uv-step { grid-template-columns: 1fr; min-height: 0; gap: var(--s6); padding: var(--s8) 0; }
+  .uv-card { padding: var(--s5) var(--s4); }
+  .uv-mark { justify-items: center; }
 }
+@media (max-width: 720px) {
+  .uv-mark { right: auto; left: 50%; transform: translateX(-50%); bottom: 6svh; font-size: 22vw; }
+}
+/* 일정·D-day */
+.sched { display: grid; gap: var(--s8); margin-bottom: var(--s8); }
+@media (min-width: 860px) { .sched { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; } }
+.dday-n { display: block; font-size: clamp(72px, 14vw, 140px); font-weight: 900; letter-spacing: -0.06em; line-height: 1; color: var(--accent); }
+.dday-l { display: block; margin-top: var(--s2); color: var(--ink-2); font-weight: 600; }
+.rows.sched-list li { grid-template-columns: 10em minmax(0, 1fr); }
+@media (max-width: 720px) { .rows.sched-list li { grid-template-columns: 1fr; } .rows.sched-list li > span:last-child { grid-column: auto; } }
+.stack-row.alt { margin-top: calc(-1 * var(--s2)); }
+.stack-name small { color: var(--accent-ink); font-weight: 700; font-size: 16px; }
 @media (min-width: 860px) { .side-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .cols:has(.side-row) { display: block; margin-top: var(--s16); }
 
@@ -386,10 +407,9 @@ a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-
   main { max-width: none; padding: 0; }
   .topbar, .jump, .btn, .round-nav .nav-btn, .round-hint, .hero-num, .ambient, .uv-stage { display: none !important; }
   body::before { display: none; }
-  .uv-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4) var(--s8); border-top: 1px solid var(--ink); padding-top: var(--s4); }
-  .uv-step { min-height: 0; opacity: 1 !important; gap: var(--s1); break-inside: avoid; }
-  .uv-name { font-size: 28px; }
-  .uv-track, .uv-note { font-size: 16px; }
+  .uv-step { min-height: 0; opacity: 1 !important; padding: 0; break-inside: avoid; break-after: page; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .uv-card { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: var(--s4) 0 0; }
+  .uv-name { font-size: 40px; }
   .print-only { display: revert; }
   /* 움직임 없이 완성된 상태로 */
   *, *::before, *::after { transition: none !important; animation: none !important; }

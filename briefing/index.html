@@ -22,7 +22,7 @@
   <!-- 첫 화면: 큰 81.9가 스크롤에 맞춰 줄어들며 아래 숫자 줄 첫 칸으로 들어간다 -->
   <header class="hero" id="top">
     <h1 data-reveal>2028 정시 지도와<br>5회 학평 분석</h1>
-    <p class="hero-sub" data-reveal>수능100%로 뽑는 대학 11곳을 기준으로 지금 위치와 남은 거리를 정리했습니다. 영어는 마지막 장에서 자세히 말씀드릴게요.</p>
+    <p class="hero-sub" data-reveal>수능 위주로 뽑는 대학 20곳을 기준으로 지금 위치와 남은 거리를 정리했습니다. 영어는 마지막 장에서 자세히 말씀드릴게요.</p>
 
     <div class="hero-num" aria-hidden="true">
       <span class="hero-big" id="hero-big"><span data-key="now">81.9</span></span>
@@ -35,7 +35,7 @@
     <ul class="mets">
       <li class="m-now"><span class="m-v"><span data-count="81.9" data-decimals="1" data-key="now">81.9</span></span><span class="m-l">국수탐 평균 백분위<br><span data-key="now-round">고2 9월</span> 학평 기준</span></li>
       <li><span class="m-v"><span data-count="89" data-key="target">89</span></span><span class="m-l">생명·자연·공학<br>목표선</span></li>
-      <li><span class="m-v"><span data-count="11">11</span><small>곳</small></span><span class="m-l">수능100%·수능+출결<br>대학 (10곳 원문 확인)</span></li>
+      <li><span class="m-v"><span data-count="20" data-key="univ-count">20</span><small>곳</small></span><span class="m-l">수능 위주 대학<br>(19곳 원문 확인)</span></li>
       <li><span class="m-v"><span data-count="80">80</span><small>점</small></span><span class="m-l">영어 목표 (2등급)<br>한국사 목표 25점</span></li>
     </ul>
     <a class="jump" href="#english" data-reveal>영어 부분만 보기 <span aria-hidden="true">↓</span></a>
@@ -47,39 +47,46 @@
 
   <!-- 01 정시 구조 -->
   <section id="csat">
-    <div class="sh" data-reveal><span class="sh-no">01</span><span class="sh-name">정시 구조</span><span class="sh-meta">2028 시행계획 (2026.4)</span></div>
-    <h2 data-reveal>11개 대학이 수능만으로 뽑습니다.</h2>
-    <p class="lede" data-reveal>교과 성적과 서류 없이 수능만, 또는 수능에 출결을 더해 뽑는 전형입니다. 여대는 뺐습니다.</p>
-    <!-- 대학이 하나씩 화면 가운데로 오면 뒤 배경(사진·로고·이름)이 그 대학으로 바뀐다. 배경은 sticky로 따라오기만 하고 스크롤은 가로채지 않음 -->
+    <div class="sh" data-reveal><span class="sh-no">01</span><span class="sh-name">정시 구조</span><span class="sh-meta">2028 시행계획 원문</span></div>
+    <h2 data-reveal><span data-key="univ-count">20</span>개 대학을 수능 위주로 봤습니다.</h2>
+    <p class="lede" data-reveal>2028학년도 각 대학 시행계획 원문에서 생명·자연 계열 정시 수능위주전형만 골랐습니다. 여대는 뺐습니다. 수능 100%가 아닌 곳은 전형 방법에 따로 적었습니다.</p>
+
+    <div class="sched" data-reveal>
+      <div class="dday"><span class="dday-n"><span id="dday">D-388</span></span><span class="dday-l">2028 수능 (2027.11.18 목)까지</span></div>
+      <ol class="rows sched-list" id="schedule"></ol>
+    </div>
+    <p class="pull" data-reveal>정시는 가·나·다군에서 한 곳씩, 최대 세 번 지원합니다. 같은 군 안에서는 한 대학만 지원할 수 있고, 합격해도 한 곳에만 등록합니다.</p>
+
+    <h3 class="sub-h pb" data-reveal>대학별 메모</h3>
+    <p class="note" data-reveal>두 대학씩 넘어갑니다. 국·수·영·탐은 자연계열 반영 비율(%)이고, '나에게'는 9월 학평 기준입니다.</p>
+    <!-- 두 대학이 한 쌍으로 화면 가운데에 오면 뒤 배경이 그 두 대학 이름으로 바뀐다. 배경은 sticky로 따라오기만 함 -->
     <div class="univ-tour">
       <div class="uv-stage" aria-hidden="true"><div class="uv-layers" id="uv-layers"></div></div>
       <ol class="uv-steps" id="univs"></ol>
     </div>
-    <div class="cols">
-      <aside class="side side-row">
-        <div data-reveal><h3>수능100%로 못 가는 대학</h3><p id="not-csat"></p></div>
-        <div data-reveal><h3>2028 방식 미확인</h3><p id="unconfirmed"></p></div>
-        <div data-reveal><h3>출결</h3><p>점수로 쓰는 곳은 중앙대 수능89 하나입니다. 공개된 서강대·세종대 표 기준으로 미인정 결석 3일 이하면 만점입니다.</p></div>
-      </aside>
+    <div class="side side-row">
+      <div data-reveal><h3>수능 100%가 아닌 대학</h3><p id="not-csat"></p></div>
+      <div data-reveal><h3>원문 미확인</h3><p id="unconfirmed"></p></div>
+      <div data-reveal><h3>출결</h3><p>정시에서 출결을 점수로 쓰는 곳은 중앙대 수능89(11%)와 서강대 수능(지역균형)입니다. 명지대는 2028부터 출결을 뺐습니다.</p></div>
     </div>
   </section>
 
   <!-- 02 반영 비율 -->
   <section id="ratio">
     <div class="sh" data-reveal><span class="sh-no">02</span><span class="sh-name">반영 비율</span><span class="sh-meta">자연계열 기준</span></div>
-    <h2 data-reveal>대부분 수학이 총점을 가릅니다.</h2>
-    <p class="lede" data-reveal>9곳 중 7곳이 수학을 35% 이상 반영합니다. 탐구 30%인 인하대·한국외대·경상국립대는 생명 강점을 살리기 좋은 곳입니다.</p>
+    <h2 data-reveal>수학 비중이 크지만, 국어로 고를 수 있는 곳도 있습니다.</h2>
+    <p class="lede" data-reveal>2028 수능 탐구는 모두 통합사회·통합과학입니다. 9월에는 국어(84.5)가 수학(80.3)보다, 통합사회(87.3)가 통합과학(74.7)보다 높았습니다. 그래서 A·B 유형 중 높은 점수를 쓰는 곳과 탐구 상위 1과목만 보는 곳이 유리합니다.</p>
     <ul class="legend" data-reveal aria-hidden="true">
       <li><i class="sw kor"></i>국어</li><li><i class="sw math"></i>수학</li><li><i class="sw eng"></i>영어</li><li><i class="sw tam"></i>탐구</li>
     </ul>
     <div class="stack" id="ratio-bars" role="img"></div>
 
     <div class="hist pb">
-      <div class="hist-num" data-reveal><span class="big-n">8</span><span class="big-u">/9곳</span></div>
+      <div class="hist-num" data-reveal><span class="big-n" id="hist-n">16</span><span class="big-u" id="hist-u">/20곳</span></div>
       <div class="hist-body">
-        <h3 data-reveal>한국사 7등급이면 9곳 중 8곳에서 깎입니다.</h3>
-        <p class="note" data-reveal>9월 한국사는 12점(7등급)입니다. 경상국립대만 응시 여부만 봅니다.</p>
-        <table class="tbl" id="hist-rule" data-reveal></table>
+        <h3 data-reveal>한국사 7등급이면 대부분 깎이고, 4등급이면 거의 사라집니다.</h3>
+        <p class="note" data-reveal>9월 한국사는 12점(7등급)입니다. 숫자는 7등급일 때 대학 총점에서 잃는 점수입니다. 대학마다 총점이 달라 크기를 바로 비교할 수는 없습니다.</p>
+        <div class="bars" id="hist-bars" role="img"></div>
       </div>
     </div>
   </section>
@@ -165,8 +172,8 @@
         <div class="bars" id="type-bars" role="img" aria-label="유형별 누적 오답률 막대그래프"></div>
       </div>
       <div>
-        <h3 class="sub-h" data-reveal>4등급이 깎는 점수</h3>
-        <div class="bars" id="weight-bars" role="img" aria-label="대학별 영어 반영 비중과 4등급일 때 잃는 점수"></div>
+        <h3 class="sub-h" data-reveal>영어 4등급이 깎는 점수</h3>
+        <div class="bars" id="weight-bars" role="img" aria-label="대학별 영어 2등급과 4등급의 점수 차"></div>
         <p class="note" id="weight-other"></p>
       </div>
     </div>
@@ -203,7 +210,7 @@
     </ol>
     <a class="btn" href="pdf/briefing.pdf" download="2028-정시-영어-코칭-브리핑.pdf">PDF로 받기</a>
     <p class="note" id="pdf-msg" aria-live="polite"></p>
-    <p class="colophon">근거: 2028학년도 각 대학 입학전형 시행계획(2026.4), 2026 정시 입시결과, 학평 성적통지표 5장(2025.9~2026.9).</p>
+    <p class="colophon">근거: 2028학년도 각 대학 입학전형 시행계획 원문(2026.3~5), 울산진로진학지원센터 「2028 대입전형 깔끔정리」, 2026 정시 입시결과, 학평 성적통지표 5장(2025.9~2026.9).</p>
   </section>
 
 </main>

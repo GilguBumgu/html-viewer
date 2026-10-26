@@ -96,45 +96,81 @@ function heroFlight() {
 
 // ---------- 01 정시 구조 ----------
 function renderCsat(plan) {
-  const pad = (n) => String(n).padStart(2, '0'), total = plan.univs.length;
-  // 배경 한 장 = 사진(있으면) + 로고(있으면) + 크게 흐린 대학 이름. 파일이 없거나 못 불러오면 이름만 남는다
-  $('#uv-layers').innerHTML = plan.univs.map((u, i) => `<figure class="uv-bg${i ? '' : ' on'}">
-      ${u.photo ? `<img class="uv-photo" src="${u.photo}" alt="" loading="lazy" decoding="async">` : ''}
-      ${u.logo ? `<img class="uv-logo" src="${u.logo}" alt="" loading="lazy" decoding="async">` : ''}
-      <span class="uv-mark">${u.univ}</span></figure>`).join('');
+  const U = plan.univs, pad = (n) => String(n).padStart(2, '0');
+  setKey('univ-count', U.length);
+  // 수능까지 남은 날 (한국 시간 기준 날짜 차이)
+  const exam = Date.UTC(2027, 10, 18), today = new Date(), t0 = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+  const left = Math.round((exam - t0) / 86400000);
+  $('#dday').textContent = left > 0 ? `D-${left}` : left === 0 ? 'D-DAY' : '수능 종료';
+  $('#schedule').innerHTML = plan.schedule.map((x) => `<li><b>${x.when}</b><span>${x.what}</span></li>`).join('');
+
+  // 두 대학씩 한 쌍
+  const pairs = [];
+  for (let i = 0; i < U.length; i += 2) pairs.push(U.slice(i, i + 2));
+  const engWord = (u) => (u.eng.scale.includes('감점') || u.ratio.some((r) => r.note.includes('감점')) ? '감점' : '가산');
+  const ratioText = (r, u) => r.kor === null ? r.note
+    : `${r.type ? r.type + '형 ' : ''}국 ${r.kor} · 수 ${r.math} · 영 ${r.eng ?? engWord(u)} · 탐 ${r.tam}`;
+  const card = (u, n) => `<article class="uv-card">
+      <span class="uv-no">${pad(n)} / ${U.length}</span>
+      <h4 class="uv-name">${u.univ}</h4>
+      <p class="uv-track">${u.track}</p>
+      <dl class="uv-facts">
+        <dt>모집</dt><dd>${u.group}</dd>
+        <dt>전형 방법</dt><dd>${u.method}</dd>
+        <dt>비율</dt><dd>${u.ratio.map((r) => ratioText(r, u)).join('<br>')}${u.ratio.some((r) => r.note && r.kor !== null) ? `<br><small>${u.ratio.map((r) => r.note).filter(Boolean).join(' / ')}</small>` : ''}${u.pick ? `<br><small>${u.pick}</small>` : ''}</dd>
+        <dt>영어</dt><dd>${u.eng.g2 === null ? u.eng.scale : `2등급 ${u.eng.g2} → 4등급 ${u.eng.g4} (${u.eng.scale})`}</dd>
+        <dt>한국사</dt><dd>${u.hist}</dd>
+        <dt>출결</dt><dd>${u.att || '반영 안 함'}</dd>
+        <dt>학과</dt><dd>${u.units}</dd>
+      </dl>
+      <ul class="uv-memo">${u.feats.map((f) => `<li>${f}</li>`).join('')}</ul>
+      <p class="uv-me"><b>나에게</b> ${u.me}</p>
+      ${u.page ? `<p class="uv-src">시행계획 원문 ${u.page}쪽</p>` : '<p class="uv-src">요약 자료 기준</p>'}
+    </article>`;
+  $('#univs').innerHTML = pairs.map((pr, i) => `<li class="uv-step${i ? '' : ' on'}">${pr.map((u, j) => card(u, i * 2 + j + 1)).join('')}</li>`).join('');
+  // 배경: 쌍마다 두 대학 이름을 크게 흐리게 (사진·로고 파일이 있으면 첫 대학 것을 깔기)
+  $('#uv-layers').innerHTML = pairs.map((pr, i) => `<figure class="uv-bg${i ? '' : ' on'}">
+      ${pr[0].photo ? `<img class="uv-photo" src="${pr[0].photo}" alt="" loading="lazy" decoding="async">` : ''}
+      <span class="uv-mark">${pr.map((u) => `<span>${u.univ}</span>`).join('')}</span></figure>`).join('');
   $$('#uv-layers img').forEach((img) => img.addEventListener('error', () => img.remove()));
-  $('#univs').innerHTML = plan.univs.map((u, i) => `<li class="uv-step${i ? '' : ' on'}">
-      <span class="uv-no">${pad(i + 1)} / ${total}</span><h3 class="uv-name">${u.univ}</h3>
-      <p class="uv-track">${u.track}</p><p class="uv-note">${u.note}</p>
-      ${u.credit ? `<p class="uv-credit">배경 사진: ${u.credit}</p>` : ''}</li>`).join('');
-  // 화면 가운데 띠(위아래 45%를 뺀 곳)에 들어온 대학이 '지금 대학'
   const steps = $$('.uv-step'), layers = $$('.uv-bg');
   const show = (i) => {
     steps.forEach((s, j) => s.classList.toggle('on', j === i));
     layers.forEach((l, j) => l.classList.toggle('on', j === i));
   };
+  $('#not-csat').textContent = plan.notByCsat.join(', ');
+  $('#unconfirmed').textContent = plan.unconfirmed.join(', ');
   if (!('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) show(steps.indexOf(e.target)); }),
     { rootMargin: '-45% 0px -45% 0px' });
   steps.forEach((s) => io.observe(s));
-  $('#not-csat').textContent = plan.notByCsat.join(', ');
-  $('#unconfirmed').textContent = plan.unconfirmed.join(', ');
 }
 
 // ---------- 02 반영 비율 ----------
 function renderRatio(plan) {
   const seg = (cls, v, name) => (v ? `<span class="seg-s ${cls}" style="flex:${v}" title="${name} ${v}%">${v}</span>` : '');
-  $('#ratio-bars').innerHTML = plan.ratio.map((r) => `<div class="stack-row">
-      <span class="stack-name">${r.univ}</span>
+  const rows = [];
+  plan.univs.forEach((u) => u.ratio.forEach((r, k) => {
+    if (r.kor === null) return;
+    const name = `${k ? '' : u.univ}${r.type ? ` <small>${r.type}형</small>` : ''}`;
+    const sub = k === u.ratio.length - 1 ? [u.ratio.length > 1 ? u.pick : '', r.eng === null ? (r.note.includes('감점') || u.eng.scale.includes('감점') ? '영어 감점' : '영어 가산') : '', r.note].filter(Boolean).join(', ') : '';
+    rows.push(`<div class="stack-row${k ? ' alt' : ''}">
+      <span class="stack-name">${name}</span>
       <span class="stack-track">${seg('kor', r.kor, '국어')}${seg('math', r.math, '수학')}${seg('eng', r.eng, '영어')}${seg('tam', r.tam, '탐구')}</span>
-      ${r.engNote || r.extra ? `<span class="stack-sub">${[r.engNote, r.extra].filter(Boolean).join(', ')}</span>` : ''}
-    </div>`).join('');
-  $('#ratio-bars').setAttribute('aria-label', '대학별 수능 반영 비율. ' + plan.ratio.map((r) =>
-    `${r.univ} 국어 ${r.kor}, 수학 ${r.math}, 영어 ${r.eng ?? r.engNote}, 탐구 ${r.tam}`).join('. '));
-  const groups = {};
-  plan.histRule.forEach((h) => (groups[h.hist] = [...(groups[h.hist] || []), h.univ]));
-  $('#hist-rule').innerHTML = '<tr><th>한국사 반영</th><th>대학</th></tr>' +
-    Object.entries(groups).map(([rule, us]) => `<tr><td>${rule}</td><td>${us.join(', ')}</td></tr>`).join('');
+      ${sub ? `<span class="stack-sub">${sub}</span>` : ''}</div>`);
+  }));
+  $('#ratio-bars').innerHTML = rows.join('');
+  $('#ratio-bars').setAttribute('aria-label', '대학별 수능 반영 비율. ' + plan.univs.map((u) =>
+    `${u.univ} ${u.ratio.map((r) => r.kor === null ? r.note : `${r.type ? r.type + '형 ' : ''}국어 ${r.kor}, 수학 ${r.math}, 영어 ${r.eng ?? '감점·가산'}, 탐구 ${r.tam}`).join(' 또는 ')}`).join('. '));
+
+  // 한국사 7등급 손해 (값이 있는 대학만, 큰 순)
+  const H = plan.univs.filter((u) => typeof u.hist7 === 'number').sort((a, b) => a.hist7 - b.hist7);
+  const lose = H.filter((u) => u.hist7 < 0).length;
+  $('#hist-n').textContent = lose; $('#hist-u').textContent = `/${H.length}곳`;
+  const max = Math.max(...H.map((u) => -u.hist7), 1);
+  $('#hist-bars').innerHTML = H.map((u) => barRow(u.univ, u.hist7 === 0 ? 0 : u.hist7, -max, '', u.hist7 <= -5 ? 'bad' : '',
+    u.hist7 === 0 ? u.hist : '')).join('');
+  $('#hist-bars').setAttribute('aria-label', '한국사 7등급일 때 대학별 감점. ' + H.map((u) => `${u.univ} ${u.hist7}`).join(', '));
 }
 
 // ---------- 03 위치 ----------
@@ -247,12 +283,11 @@ function renderOrder(plan) {
 
 // ---------- 06 영어 ----------
 function renderEnglish(eng, plan) {
-  $('#weight-bars').innerHTML = plan.englishWeight
-    .map((u) => barRow(u.univ, u.weight, 25, '%', '',
-      u.g2 !== null ? `4등급이면 ${u.g2 - u.g4}점 손해 (${u.g2} → ${u.g4}${u.scale.startsWith('100') ? ', 100점 만점' : ''})` : u.scale))
-    .join('');
-  $('#weight-other').textContent = plan.englishOther
-    .map((o) => `${o.univ}는 ${o.type}입니다 (2등급 ${o.g2}, 4등급 ${o.g4}).`).join(' ');
+  const E = plan.univs.filter((u) => u.eng.g2 !== null).map((u) => ({ u, gap: Math.round((u.eng.g2 - u.eng.g4) * 10) / 10 }))
+    .sort((a, b) => b.gap - a.gap);
+  $('#weight-bars').innerHTML = E.map(({ u, gap }) => barRow(u.univ, gap, 15, '점', gap >= 10 ? 'bad' : '',
+    `${u.eng.scale}${u.eng.scale === '감점' ? `: 2등급 ${u.eng.g2}, 4등급 ${u.eng.g4}` : `: 2등급 ${u.eng.g2} → 4등급 ${u.eng.g4}`}`)).join('');
+  $('#weight-other').textContent = '대학마다 만점이 달라(100·150·200점, 감점·가산) 막대는 잃는 점수 그 자체입니다. 성균관대·중앙대는 환산표가 모집요강(2027.9)에서 공개됩니다.';
 
   $('#type-bars').innerHTML = eng.types
     .map((t) => { const r = rate(t); return barRow(`${t.name} ${t.from}~${t.to}번`, r, 100, '%', r >= 60 ? 'bad' : r >= 35 ? 'warn' : ''); })
