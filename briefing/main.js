@@ -379,6 +379,26 @@ function observe() {
   }, { passive: true });
 }
 
+// 유리 카드의 얕은 3D: 마우스(정밀 포인터)에서만, 최대 2도. 터치·움직임 줄이기에서는 꺼짐
+function tilt() {
+  if (reduce || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  $$('.uv-card, .round, .mets').forEach((el) => {
+    el.classList.add('tilt');
+    let raf = 0;
+    el.addEventListener('pointermove', (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.setProperty('--ry', `${(x * 4).toFixed(2)}deg`);
+        el.style.setProperty('--rx', `${(-y * 4).toFixed(2)}deg`);
+        el.classList.add('lift');
+      });
+    });
+    el.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); el.classList.remove('lift'); });
+  });
+}
+
 // claude.ai Artifact 안에서는 일반 다운로드 링크가 막혀 있어, downloads 기능으로 PDF를 건넨다.
 // 일반 브라우저(사이트·한 파일 버전)에서는 window.claude가 없으므로 링크가 그대로 동작한다
 async function wirePdf() {
@@ -413,7 +433,7 @@ Promise.all(['data/english.json', 'data/plan.json', 'data/mocks.json'].map(load)
     renderCsat(plan); renderRatio(plan); renderCutoffs(plan, now);
     renderRounds(mocks); renderSubjectPlan(plan); renderOrder(plan);
     renderEnglish(eng, plan);
-    observe(); heroFlight(); wirePdf();
+    observe(); heroFlight(); wirePdf(); tilt();
   })
   .catch((err) => {
     console.error(err);

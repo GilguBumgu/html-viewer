@@ -20,6 +20,14 @@
   /* 배경 빛: 파랑 계열 세 가지를 아주 옅게 (글자 대비에 영향 없는 농도) */
   --glow-1: #007EEC3D; --glow-2: #5AC8FA4D; --glow-3: #7FE3D442;
   --paper-glass: #FFFFFFB8;
+  /* 리퀴드 글라스: 반투명 판 + 위쪽 빛 + 아래 얕은 그림자 (2026.10.26 학생 요청) */
+  --glass: #FFFFFF8F; --glass-strong: #FFFFFFC7; --glass-edge: #FFFFFFE6; --glass-rim: #0F2A4A14;
+  --glass-sheen: #FFFFFFB3; --glass-sheen-0: #FFFFFF00;
+  --glass-shadow: 0 1px 1px #0F2A4A0D, 0 10px 28px -10px #0F3C7A33, 0 28px 56px -28px #0F3C7A26;
+  --glass-shadow-lift: 0 2px 2px #0F2A4A0F, 0 16px 36px -12px #0F3C7A40, 0 36px 64px -28px #0F3C7A2E;
+  --glass-inner: inset 0 1px 0 #FFFFFFF2, inset 0 -1px 0 #FFFFFF59, inset 0 0 0 1px #FFFFFF59;
+  --glass-blur: saturate(180%) blur(20px);
+  --r-glass: 22px; --r-glass-sm: 14px; --r-pill: 999px;
   --heat-0: #F4F5F7; --heat-1: #E6F2FD; --heat-2: #B9DAFA; --heat-3: #6FB3F4; --heat-4: #0062BA;
   --font: "Pretendard Site", "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Noto Sans CJK KR", system-ui, sans-serif;
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px; --s16: 64px; --s24: 96px; --s32: 128px;
@@ -397,16 +405,82 @@ a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent); outline-
   .js .round-body, .js .g-fill, .js .g-goal, .js .sh::before { opacity: 1 !important; transform: none !important; }
   .hero-num { display: none; }
   .blob { animation: none !important; }
+  .tilt { transform: none !important; }
 }
 
 /* ---------- 인쇄(PDF): tools/build_pdf.js가 이 규칙으로 A4 PDF를 만든다 ---------- */
 .print-only { display: none; }
 @page { size: A4 landscape; margin: 12mm 14mm 14mm; }
+
+/* ---------- 리퀴드 글라스 (과하지 않게: 카드·숫자 칸·회차·버튼·위 띠만) ---------- */
+.glass, .uv-card, .round, .mets, .pull, .sched .dday, .hist-num {
+  position: relative; background: var(--glass); border: 1px solid var(--glass-rim); border-radius: var(--r-glass);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow), var(--glass-inner);
+}
+/* 위쪽에서 비치는 빛 (판 윗부분만 살짝 밝게) */
+.uv-card::before, .round::before, .mets::before, .pull::before, .sched .dday::before, .hist-num::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, var(--glass-sheen) 0%, var(--glass-sheen-0) 42%);
+  opacity: 0.55;
+}
+.uv-card > *, .round > *, .mets > *, .pull > *, .sched .dday > *, .hist-num > * { position: relative; }
+
+/* 위 띠: 화면 위에 뜬 유리 막대 */
+.topbar { margin: var(--s2) max(var(--s3), env(safe-area-inset-right, 0px)) 0 max(var(--s3), env(safe-area-inset-left, 0px));
+  top: calc(env(safe-area-inset-top, 0px) + var(--s2)); border: 1px solid var(--glass-rim); border-radius: var(--r-pill);
+  background: var(--glass-strong); box-shadow: var(--glass-shadow), var(--glass-inner); padding-left: var(--s6); padding-right: var(--s6); }
+body::before { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* 숫자 칸: 한 장의 유리판 안에서 칸 나눔 */
+.mets { border-top: 1px solid var(--glass-rim); padding: 0 var(--s5); overflow: hidden; }
+.mets li { padding: var(--s6) var(--s5); }
+.mets li:first-child { padding-left: 0; }
+@media (max-width: 720px) { .mets { padding: 0 var(--s4); } .mets li:nth-child(odd) { padding-left: 0 !important; } .mets li:nth-last-child(-n+2) { border-bottom: 0; } }
+
+/* 대학 카드·회차 카드 */
+.uv-card { border-top: 1px solid var(--glass-rim); padding: var(--s8) var(--s6) var(--s6); }
+.uv-me { border-radius: var(--r-glass-sm); background: var(--accent-soft); box-shadow: inset 0 1px 0 var(--glass-edge); }
+.round { border-top: 1px solid var(--glass-rim); padding: var(--s6); }
+.round-table { background: none; }
+@media (max-width: 600px) { .round { padding: var(--s4); } .uv-card { padding: var(--s6) var(--s4) var(--s5); } }
+
+/* 인용 줄: 왼쪽 파란 점이 박힌 유리판 */
+.pull { border-left: 1px solid var(--glass-rim); padding: var(--s5) var(--s6) var(--s5) calc(var(--s6) + var(--s5)); max-width: 40em; }
+.pull::after { content: ""; position: absolute; left: var(--s5); top: calc(var(--s5) + 0.55em); width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+
+/* D-day·한국사 큰 숫자 */
+.sched .dday { padding: var(--s6) var(--s6) var(--s5); }
+.hist-num { padding: var(--s6); align-self: start; }
+
+/* 버튼: 볼록한 유리 알약 */
+.nav-btn { border-radius: var(--r-pill); border: 1px solid var(--glass-rim); background: var(--glass-strong);
+  box-shadow: var(--glass-shadow), var(--glass-inner); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+.btn { border-radius: var(--r-pill); background: var(--ink); color: var(--paper);
+  box-shadow: 0 10px 24px -10px #11111166, inset 0 1px 0 #FFFFFF40, inset 0 -2px 0 #00000033; }
+@media (hover: hover) {
+  .nav-btn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+}
+
+/* 눈금: 유리 홈 안의 파란 막대 */
+.g-track { height: 12px; border-radius: var(--r-pill); background: var(--glass-strong); box-shadow: inset 0 1px 2px #0F2A4A1F, inset 0 0 0 1px var(--glass-rim); overflow: hidden; }
+.g-fill { border-radius: var(--r-pill); box-shadow: inset 0 1px 0 #FFFFFF66; }
+.bar-track, .cut-track { border-radius: var(--r-pill); overflow: hidden; }
+.bar-fill { border-radius: var(--r-pill); }
+
+/* 아주 얕은 3D: 마우스를 따라 최대 2도 기울기 (main.js tilt, transform만) */
+.tilt { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform var(--dur-out) var(--ease-out), box-shadow var(--dur-out) var(--ease-out); }
+.tilt.lift { box-shadow: var(--glass-shadow-lift), var(--glass-inner); }
+
 @media print {
   html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; scroll-behavior: auto; }
   main { max-width: none; padding: 0; }
   .topbar, .jump, .btn, .round-nav .nav-btn, .round-hint, .hero-num, .ambient, .uv-stage { display: none !important; }
   body::before { display: none; }
+  .uv-card, .round, .mets, .pull, .sched .dday, .hist-num, .nav-btn { background: none !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-color: var(--line) !important; }
+  .uv-card::before, .round::before, .mets::before, .pull::before, .sched .dday::before, .hist-num::before { display: none; }
+  .tilt { transform: none !important; }
   .uv-step { min-height: 0; opacity: 1 !important; padding: 0; break-inside: avoid; break-after: page; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .uv-card { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: var(--s4) 0 0; }
   .uv-name { font-size: 40px; }
