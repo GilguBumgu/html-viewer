@@ -165,14 +165,14 @@ function renderRatio(plan) {
   $('#ratio-bars').setAttribute('aria-label', '대학별 수능 반영 비율. ' + plan.univs.map((u) =>
     `${u.univ} ${u.ratio.map((r) => r.kor === null ? r.note : `${r.type ? r.type + '형 ' : ''}국어 ${r.kor}, 수학 ${r.math}, 영어 ${r.eng ?? '감점·가산'}, 탐구 ${r.tam}`).join(' 또는 ')}`).join('. '));
 
-  // 한국사 7등급 손해 (값이 있는 대학만, 큰 순)
-  const H = plan.univs.filter((u) => typeof u.hist7 === 'number').sort((a, b) => a.hist7 - b.hist7);
-  const lose = H.filter((u) => u.hist7 < 0).length;
+  // 한국사 5등급 손해 (값이 있는 대학만, 큰 순)
+  const H = plan.univs.filter((u) => typeof u.hist5 === 'number').sort((a, b) => a.hist5 - b.hist5);
+  const lose = H.filter((u) => u.hist5 < 0).length;
   $('#hist-n').textContent = lose; $('#hist-u').textContent = `/${H.length}곳`;
-  const max = Math.max(...H.map((u) => -u.hist7), 1);
-  $('#hist-bars').innerHTML = H.map((u) => barRow(u.univ, u.hist7 === 0 ? 0 : u.hist7, -max, '', u.hist7 <= -5 ? 'bad' : '',
-    u.hist7 === 0 ? u.hist : '')).join('');
-  $('#hist-bars').setAttribute('aria-label', '한국사 7등급일 때 대학별 감점. ' + H.map((u) => `${u.univ} ${u.hist7}`).join(', '));
+  const max = Math.max(...H.map((u) => -u.hist5), 1);
+  $('#hist-bars').innerHTML = H.map((u) => barRow(u.univ, u.hist5 === 0 ? 0 : u.hist5, -max, '', u.hist5 <= -5 ? 'bad' : '',
+    u.hist5 === 0 ? u.hist : '')).join('');
+  $('#hist-bars').setAttribute('aria-label', '한국사 5등급일 때 대학별 감점. ' + H.map((u) => `${u.univ} ${u.hist5}`).join(', '));
 }
 
 // ---------- 03 위치 ----------
@@ -204,10 +204,10 @@ function roundBody(r) {
   const rows = SUBJ.map(([k, name]) => {
     const s = r[k];
     return `<tr><th scope="row">${name}</th><td class="num">${fmt(s.raw)}</td>
-      <td class="num g${gradeLevel(s.grade)}">${s.grade}</td><td class="num">${s.pct ? fmt(s.pct, 2) : '-'}</td></tr>`;
+      <td class="num g${gradeLevel(s.grade)}">${s.grade}</td><td class="num">${s.pct ? (Number.isInteger(s.pct) ? s.pct : s.pct.toFixed(2)) : '-'}</td></tr>`;
   }).join('');
   return `<table class="round-table"><tr><th>과목</th><th>원점수</th><th>등급</th><th>백분위</th></tr>${rows}</table>
-    <p class="round-avg">국수탐 평균 백분위 <b>${fmt(avgPct(r))}</b></p>`;
+    <p class="round-avg">국수탐 평균 백분위 <b>${avgPct(r).toFixed(1)}</b></p>`;
 }
 
 function renderRounds(mocks) {
@@ -265,7 +265,7 @@ function renderRounds(mocks) {
   $('#trend').innerHTML = rs.map((r, i) => {
     const v = avgPct(r);
     return `<li class="step ${r.pending ? 'pending' : ''}${i === lastDone ? ' latest' : ''}" style="--v:${v === null ? 4 : y(v)}%">
-      <span class="plot"><span class="col"></span><b class="val">${fmt(v)}</b><i class="goal-line"></i></span>
+      <span class="plot"><span class="col"></span><b class="val">${v === null ? "대기" : v.toFixed(1)}</b><i class="goal-line"></i></span>
       <span class="when">${r.label.replace(' ', '<br>')}</span></li>`;
   }).join('');
   $('#trend').setAttribute('aria-label', '국수탐 평균 백분위 추이. ' + rs.map((r) => `${r.label} ${fmt(avgPct(r))}`).join(', ') + `. 목표 ${target}`);
