@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>2028 정시와 영어 코칭 브리핑</title>
+  <link rel="preload" href="fonts/pretendard-subset.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- 배경: 은은하게 움직이는 빛 (transform만, 움직임 줄이기면 멈춤) -->
+<div class="ambient" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<div class="topbar">
+  <span class="tb-title">영어 코칭 브리핑</span>
+  <span class="tb-meta">고2 박범수</span>
+</div>
+
+<main>
+
+  <!-- 첫 화면: 큰 81.9가 스크롤에 맞춰 줄어들며 아래 숫자 줄 첫 칸으로 들어간다 -->
+  <header class="hero" id="top">
+    <h1 data-reveal>2028 정시 지도와<br>6회 학평 분석</h1>
+    <p class="hero-sub" data-reveal>수능 위주로 뽑는 대학 20곳을 기준으로 지금 위치와 남은 거리를 정리했습니다. 영어는 마지막 장에서 자세히 말씀드릴게요.</p>
+
+    <div class="hero-num" aria-hidden="true">
+      <span class="hero-big" id="hero-big"><span data-key="now">81.9</span></span>
+    </div>
+    <div class="gauge" id="gauge" role="img" aria-label="국수탐 평균 백분위 눈금. 지금 81.9, 목표 89">
+      <span class="g-track"><span class="g-fill"></span><i class="g-goal"></i></span>
+      <span class="g-labels"><span>70</span><span class="g-now">지금 <b data-key="now">81.9</b></span><span class="g-target">목표 <b data-key="target">89</b></span><span>100</span></span>
+    </div>
+
+    <ul class="mets">
+      <li class="m-now"><span class="m-v"><span data-count="81.9" data-decimals="1" data-key="now">81.9</span></span><span class="m-l">국수탐 평균 백분위<br><span data-key="now-round">고2 9월</span> 학평 기준</span></li>
+      <li><span class="m-v"><span data-count="89" data-key="target">89</span></span><span class="m-l">생명·자연·공학<br>목표선</span></li>
+      <li><span class="m-v"><span data-count="20" data-key="univ-count">20</span><small>곳</small></span><span class="m-l">수능 위주 대학<br>(19곳 원문 확인)</span></li>
+      <li><span class="m-v"><span data-count="80">80</span><small>점</small></span><span class="m-l">영어 목표 (2등급)<br>한국사 목표 25점</span></li>
+    </ul>
+    <a class="jump" href="#english" data-reveal>영어 부분만 보기 <span aria-hidden="true">↓</span></a>
+    <ol class="toc print-only" aria-label="목차">
+      <li><b>01</b>정시 구조</li><li><b>02</b>반영 비율</li><li><b>03</b>위치</li><li><b>04</b>학평 6회</li>
+      <li><b>05</b>순서</li><li><b>06</b>영어</li><li><b>07</b>첫 수업 전</li>
+    </ol>
+  </header>
+
+  <!-- 01 정시 구조 -->
+  <section id="csat">
+    <div class="sh" data-reveal><span class="sh-no">01</span><span class="sh-name">정시 구조</span><span class="sh-meta">2028 시행계획 원문</span></div>
+    <h2 data-reveal><span data-key="univ-count">20</span>개 대학을 수능 위주로 봤습니다.</h2>
+    <p class="lede" data-reveal>2028학년도 각 대학 시행계획 원문에서 생명·자연 계열 정시 수능위주전형만 골랐습니다. 여대는 뺐습니다. 수능 100%가 아닌 곳은 전형 방법에 따로 적었습니다.</p>
+
+    <div class="sched" data-reveal>
+      <div class="dday"><span class="dday-n"><span id="dday">D-388</span></span><span class="dday-l">2028 수능 (2027.11.18 목)까지</span></div>
+      <ol class="rows sched-list" id="schedule"></ol>
+    </div>
+    <p class="pull" data-reveal>정시는 가·나·다군에서 한 곳씩, 최대 세 번 지원합니다. 같은 군 안에서는 한 대학만 지원할 수 있고, 합격해도 한 곳에만 등록합니다.</p>
+
+    <h3 class="sub-h pb" data-reveal>대학별 메모</h3>
+    <p class="note" data-reveal>두 대학씩 넘어갑니다. 국·수·영·탐은 자연계열 반영 비율(%)이고, '나에게'는 10월 학평 기준입니다.</p>
+    <!-- 두 대학이 한 쌍으로 화면 가운데에 오면 뒤 배경이 그 두 대학 이름으로 바뀐다. 배경은 sticky로 따라오기만 함 -->
+    <div class="univ-tour">
+      <div class="uv-stage" aria-hidden="true"><div class="uv-layers" id="uv-layers"></div></div>
+      <ol class="uv-steps" id="univs"></ol>
+    </div>
+    <div class="side side-row">
+      <div data-reveal><h3>수능 100%가 아닌 대학</h3><p id="not-csat"></p></div>
+      <div data-reveal><h3>원문 미확인</h3><p id="unconfirmed"></p></div>
+      <div data-reveal><h3>출결</h3><p>정시에서 출결을 점수로 쓰는 곳은 중앙대 수능89(11%)와 서강대 수능(지역균형)입니다. 명지대는 2028부터 출결을 뺐습니다.</p></div>
+    </div>
+  </section>
+
+  <!-- 02 반영 비율 -->
+  <section id="ratio">
+    <div class="sh" data-reveal><span class="sh-no">02</span><span class="sh-name">반영 비율</span><span class="sh-meta">자연계열 기준</span></div>
+    <h2 data-reveal>수학 비중이 크지만, 국어로 고를 수 있는 곳도 있습니다.</h2>
+    <p class="lede" data-reveal>2028 수능 탐구는 모두 통합사회·통합과학입니다. 9월에는 국어(84.5)가, 10월에는 수학(84)이 더 높았습니다. 시험마다 강한 과목이 바뀌니 A·B 유형 중 높은 점수를 쓰는 곳이 유리합니다. 탐구는 두 번 모두 통합사회가 높아 상위 1과목만 보는 곳이 유리합니다.</p>
+    <ul class="legend" data-reveal aria-hidden="true">
+      <li><i class="sw kor"></i>국어</li><li><i class="sw math"></i>수학</li><li><i class="sw eng"></i>영어</li><li><i class="sw tam"></i>탐구</li>
+    </ul>
+    <div class="stack" id="ratio-bars" role="img"></div>
+
+    <div class="hist pb">
+      <div class="hist-num" data-reveal><span class="big-n" id="hist-n">16</span><span class="big-u" id="hist-u">/20곳</span></div>
+      <div class="hist-body">
+        <h3 data-reveal>한국사 5등급이면 아직 깎이고, 4등급이면 대부분 사라집니다.</h3>
+        <p class="note" data-reveal>한국사는 9월 12점(7등급)에서 10월 20점(5등급)으로 올랐습니다. 숫자는 5등급일 때 대학 총점에서 잃는 점수이고, 25점(4등급)이면 인천대·가천대 등 몇 곳을 빼고 모두 0입니다. 대학마다 총점이 달라 크기를 바로 비교할 수는 없습니다.</p>
+        <div class="bars" id="hist-bars" role="img"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 위치 -->
+  <section id="position">
+    <div class="sh" data-reveal><span class="sh-no">03</span><span class="sh-name">위치</span><span class="sh-meta">2026 정시 70%컷</span></div>
+    <h2 data-reveal>지금 <span data-key="now">81.9</span>, 목표 <span data-key="target">89</span>까지 <span data-key="gap">7.1</span> 남았습니다.</h2>
+    <p class="lede" data-reveal>생명·바이오 계열 2026 정시 합격선(최종등록자 국수탐 백분위 70%컷, 영어 제외)입니다. 파란 선이 지금 위치, 검은 점선이 목표입니다. 10월 기준(81.0)으로 명지대 화학·생명과학대학(78.7)·인천대 생명과학(77)은 넘었고, 인천대 생명공학(82)까지 1점, 세종대·광운대(83)까지 2점, 인하대 생명공학(85)까지 4점, 서강대·건국대·경희대 생명 계열까지 8~9점 남았습니다.</p>
+    <div class="cutoffs" id="cutoffs" role="img"></div>
+    <p class="note" data-reveal id="cut-note"></p>
+
+    <h3 class="sub-h pb" data-reveal>필요한 등급 조합</h3>
+    <div class="scroll-x"><table class="tbl combos" id="combos" data-reveal></table></div>
+    <p class="pull" data-reveal>국어나 수학 하나만 2등급이 되어도 85~88, 인하대·국민대 바이오 계열입니다. 둘 다 올리면 89~92, 건국대·중앙대·경희대·서강대 생명 계열입니다.</p>
+    <p class="note" data-reveal>목표로 국어·수학·영어 2등급, 탐구 두 과목 1등급(22211)을 받으면 국수탐 평균 백분위는 약 91~96(중간 94)입니다. 2026 입결 기준 고려대 생명 계열(94~95)이 적정~상향, 서강·중앙(서울)·건국·경희대 생명 계열(89~93)이 안정~적정입니다. 2등급·1등급 백분위 폭으로 계산한 추정입니다.</p>
+  </section>
+
+  <!-- 04 학평 5회 -->
+  <section id="mocks">
+    <div class="sh" data-reveal><span class="sh-no">04</span><span class="sh-name">학평 6회</span><span class="sh-meta">성적통지표 6장</span></div>
+    <h2 data-reveal>10월, 영어·통합과학·한국사가 올랐습니다.</h2>
+    <p class="lede" data-reveal>고1 9월부터 고2 10월까지 여섯 번입니다. 10월에는 여섯 과목이 모두 3등급 이상이 됐습니다(한국사 제외). 평균 백분위는 81.0으로 9월(81.9)과 비슷합니다.</p>
+
+    <div class="round" id="round-card" data-reveal>
+      <div class="round-nav">
+        <button class="nav-btn" id="round-prev" type="button"><span aria-hidden="true">←</span><span class="nav-label"></span></button>
+        <h3 class="round-title" id="round-title" aria-live="polite">고2 10월</h3>
+        <button class="nav-btn" id="round-next" type="button"><span class="nav-label"></span><span aria-hidden="true">→</span></button>
+      </div>
+      <div class="round-body" id="round-body"></div>
+      <p class="note round-hint">휴대폰에서는 표를 옆으로 밀어서 회차를 넘길 수 있습니다.</p>
+    </div>
+
+    <div class="split pb">
+      <div>
+        <h3 class="sub-h" data-reveal>국수탐 평균 백분위</h3>
+        <ol class="trend" id="trend" role="img"></ol>
+        <p class="note" data-reveal>점선은 목표 89. (국어 + 수학 + 탐구 두 과목 평균) ÷ 3으로 계산했습니다.</p>
+      </div>
+      <ul class="findings">
+        <li data-reveal><b>영어</b>65점(4등급)에서 71점(3등급)으로 올랐습니다. 듣기 17문항은 전부 맞혔고, 빈칸 4문항은 또 다 틀렸습니다.</li>
+        <li data-reveal><b>수학</b>2·3점 17문항은 전부 정답, 4점 13문항 중 10개 오답입니다. 단답 26~30번은 다섯 문항 모두 틀렸습니다.</li>
+        <li data-reveal><b>통합과학·한국사</b>통합과학 4→3등급, 한국사 12점→20점(7→5등급)입니다. 한국사는 2문항만 더 맞히면 4등급입니다.</li>
+      </ul>
+    </div>
+
+    <h3 class="sub-h pb" data-reveal>과목별 등급 흐름</h3>
+    <div class="scroll-x" tabindex="0" role="region" aria-label="회차별 과목 등급 표, 옆으로 밀어서 보기">
+      <table class="heat grades" id="grade-table"></table>
+    </div>
+    <p class="note" data-reveal>진할수록 등급이 낮습니다.</p>
+
+    <h3 class="sub-h" data-reveal>과목별로 점수를 만들 곳</h3>
+    <ol class="rows subj" id="subject-plan"></ol>
+  </section>
+
+  <!-- 05 순서 -->
+  <section id="order">
+    <div class="sh" data-reveal><span class="sh-no">05</span><span class="sh-name">순서</span><span class="sh-meta">문항 수 × 배점 × 오답률</span></div>
+    <h2 data-reveal>점수가 가장 빨리 오르는 순서.</h2>
+    <p class="lede" data-reveal>수학 15~21번과 29~30번 고난도는 이 여섯 개 다음입니다.</p>
+    <ol class="rank" id="priority"></ol>
+    <h3 class="sub-h pb" data-reveal>겨울 계획(11월~2월)에 더할 것</h3>
+    <p class="note" data-reveal>정해 둔 계획은 그대로 두고 약점만 더합니다. 한국사는 지금 계획에 빠져 있는 유일한 과목입니다.</p>
+    <ol class="rows winter" id="winter"></ol>
+  </section>
+
+  <!-- 06 영어 -->
+  <section id="english">
+    <div class="sh" data-reveal><span class="sh-no">06</span><span class="sh-name">영어</span><span class="sh-meta">학평 6회 채점 결과</span></div>
+    <h2 data-reveal>영어는 빈칸에서 무너집니다.</h2>
+    <p class="lede" data-reveal>여기부터 선생님께 직접 드리는 이야기입니다. 듣기는 거의 틀리지 않고, 글 전체를 한 문장으로 압축하는 문제에서 점수가 빠집니다.</p>
+    <ul class="mets eng-mets">
+      <li><span class="m-v"><span data-count="71" data-key="eng-raw">71</span><small>점</small></span><span class="m-l"><span data-key="eng-label">고2 10월</span> 원점수, <span data-key="eng-grade">3</span>등급<br>80점(2등급)까지 9점</span></li>
+      <li class="accent"><span class="m-v"><span data-count="90" data-key="blank">90</span><small>%</small></span><span class="m-l">빈칸 31~34번<br><span data-rounds>5</span>회 누적 오답률</span></li>
+      <li><span class="m-v"><span data-count="6" data-key="listen">6</span><small>%</small></span><span class="m-l">듣기 1~17번<br><span data-rounds>5</span>회 누적 오답률</span></li>
+      <li><span class="m-v"><span data-count="80">80</span><small>점</small></span><span class="m-l">최종 목표<br>2028 수능 2등급</span></li>
+    </ul>
+
+    <div class="split pb">
+      <div>
+        <h3 class="sub-h" data-reveal>유형별 누적 오답률</h3>
+        <div class="bars" id="type-bars" role="img" aria-label="유형별 누적 오답률 막대그래프"></div>
+      </div>
+      <div>
+        <h3 class="sub-h" data-reveal>영어 2등급과 4등급의 점수 차</h3>
+        <div class="bars" id="weight-bars" role="img" aria-label="대학별 영어 2등급과 4등급의 점수 차"></div>
+        <p class="note" id="weight-other"></p>
+      </div>
+    </div>
+
+    <h3 class="sub-h pb" data-reveal>회차별 오답</h3>
+    <div class="scroll-x" tabindex="0" role="region" aria-label="회차별 유형 오답 표, 옆으로 밀어서 보기">
+      <table class="heat" id="heat"></table>
+    </div>
+    <p class="note" data-reveal>틀린 문항 수/전체 문항 수. 테두리 열이 가장 최근인 10월입니다.</p>
+
+    <h3 class="sub-h" data-reveal>매번 틀리는 문항</h3>
+    <div class="grid45" id="grid45" role="img" aria-label="45문항 지도. 번호마다 그 유형의 누적 오답률로 색을 칠함. 빈칸 31~34번이 가장 진하고, 21·24번은 6회 중 5회, 23번은 4회 오답"></div>
+    <p class="note" data-reveal>번호마다 그 유형의 누적 오답률로 칠했습니다. 테두리는 21번(함축)·24번(제목) 6회 중 5회, 23번(주제) 4회 틀린 문항으로, 셋 다 빈칸과 뿌리가 같습니다.</p>
+
+    <h3 class="sub-h pb" data-reveal>약한 영역과 처방</h3>
+    <ol class="rows fixes" id="fixes">
+      <li><b>빈칸 31~34</b><span>글의 요지를 빈칸 자리에 맞게 바꿔 말하지 못합니다.</span><span class="fix">요지를 한 문장으로 쓴 뒤 빈칸 위치에 맞게 바꾸기</span></li>
+      <li><b>함축·주제·제목</b><span>21·23·24번. 글 전체를 압축하는 힘이 부족합니다.</span><span class="fix">however 이후 문장과 반복되는 핵심어 표시</span></li>
+      <li><b>어법 29</b><span>관계사, 동사·준동사 판단에서 틀립니다.</span><span class="fix">빈출 어법 10개 정리</span></li>
+      <li><b>순서·삽입 36~39</b><span>대명사·연결어 단서를 놓칩니다.</span><span class="fix">단서를 표시한 뒤 문장 배열</span></li>
+    </ol>
+    <p class="pull" data-reveal>시험에서는 듣기 → 18~30번 → 35~45번 순서로 풀고, 빈칸 31~34번은 마지막에 풉니다. 빈칸은 한 문항에 2분을 넘기지 않습니다.</p>
+  </section>
+
+  <!-- 07 함께 정할 것 -->
+  <section id="ask">
+    <div class="sh" data-reveal><span class="sh-no">07</span><span class="sh-name">첫 수업 전</span><span class="sh-meta">선생님과 정할 것</span></div>
+    <h2 data-reveal>첫 수업 전에 함께 정하고 싶은 것.</h2>
+    <ol class="checks">
+      <li>정답 근거를 지문 속 문장으로 짚어 주기</li>
+      <li>오답 원인을 어휘, 구문, 논리, 시간 중 하나로 분류해 기록</li>
+      <li>월 1회 70분 실전 모의고사와 점수 기록</li>
+      <li>교재, 수업 요일, 3월 학평 이후 횟수 조정 기준</li>
+    </ol>
+    <a class="btn" href="pdf/briefing.pdf" download="2028-정시-영어-코칭-브리핑.pdf">PDF로 받기</a>
+    <p class="note" id="pdf-msg" aria-live="polite"></p>
+    <p class="colophon">근거: 2028학년도 각 대학 입학전형 시행계획 원문(2026.3~5), 울산진로진학지원센터 「2028 대입전형 깔끔정리」, 2026 정시 입시결과, 학평 성적통지표 6장(2025.9~2026.10).</p>
+  </section>
+
+</main>
+<script src="main.js" defer></script>
+</body>
+</html>

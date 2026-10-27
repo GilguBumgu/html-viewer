@@ -10,7 +10,7 @@
 ## 배포
 Settings → Pages → Deploy from a branch → `main` / `(root)` → Save
 
-## briefing/
+## english-admission-2028/
 2028 정시·학평 5회·영어 코칭 브리핑 (한 페이지 스크롤 사이트).
-주소: https://gilgubumgu.github.io/html-viewer/briefing/
+주소: https://gilgubumgu.github.io/html-viewer/english-admission-2028/ (예전 briefing/은 이 주소로 자동 이동)
 원본과 수정 방법은 비공개 저장소 `my-study`의 `coaching-site/`에 있다. 이 폴더는 거기서 만든 결과물을 복사한 것이니 여기서 직접 고치지 말 것.
