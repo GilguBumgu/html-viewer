@@ -166,6 +166,19 @@ section#english { padding-top: var(--s32); }
 @media (max-width: 720px) {
   .uv-mark { right: auto; left: 50%; transform: translateX(-50%); bottom: 6svh; font-size: 22vw; }
 }
+/* 카드 아래: 입학전형 시행계획 원본 */
+.uv-plan { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s3);
+  margin-top: var(--s2); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.uv-plan-l { font-weight: 600; }
+.uv-plan-l small { display: block; color: var(--ink-2); font-size: 16px; font-weight: 400; }
+.uv-plan-btns { display: flex; gap: var(--s2); flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--s5); border-radius: var(--r-pill); font-weight: 700; text-decoration: none;
+  background: var(--ink); color: var(--paper); box-shadow: 0 8px 18px -10px #11111166, inset 0 1px 0 #FFFFFF40;
+  transition: transform var(--dur-out) var(--ease-out), opacity var(--dur-out) var(--ease-out); white-space: nowrap; }
+.pill.ghost { background: var(--glass-strong); color: var(--ink); border: 1px solid var(--glass-rim); box-shadow: var(--glass-inner); }
+.pill:active { transform: scale(0.97); }
+.pill:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (hover: hover) { .pill:hover { background: var(--accent-ink); color: var(--paper); } }
 /* 일정·D-day */
 .sched { display: grid; gap: var(--s8); margin-bottom: var(--s8); }
 @media (min-width: 860px) { .sched { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; } }
@@ -493,6 +506,7 @@ body::before { background: none; -webkit-backdrop-filter: none; backdrop-filter:
   .uv-step { min-height: 0; opacity: 1 !important; padding: 0; break-inside: avoid; break-after: page; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   .uv-card { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: var(--s4) 0 0; }
   .uv-name { font-size: 40px; }
+  .uv-plan-btns { display: none; }
   .print-only { display: revert; }
   /* 움직임 없이 완성된 상태로 */
   *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -526,3 +540,4 @@ body::before { background: none; -webkit-backdrop-filter: none; backdrop-filter:
   table.heat { min-width: 0; }
   .colophon { margin-top: var(--s12); }
 }
+.uv-facts small.nw { white-space: nowrap; }

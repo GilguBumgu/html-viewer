@@ -122,11 +122,16 @@ function renderCsat(plan) {
         <dt>한국사</dt><dd>${u.hist}</dd>
         <dt>출결</dt><dd>${u.att || '반영 안 함'}</dd>
         <dt>학과</dt><dd>${u.units}</dd>
-        <dt>입결</dt><dd>${u.cut && u.cut.length ? u.cut.map((c) => `${c.unit}(${c.group}) <b>${c.c26}</b>${c.c25 !== null ? ` <small>2025 ${c.c25}</small>` : ''}`).join('<br>') + '<br><small>2026 70%컷, 국수탐 백분위</small>' : '학과별 자료 미확보'}</dd>
+        <dt>입결</dt><dd>${u.cut && u.cut.length ? u.cut.map((c) => `${c.unit}(${c.group}) <b>${c.c26}</b>${c.c25 !== null ? ` <small class="nw">2025 ${c.c25}</small>` : ''}`).join('<br>') + '<br><small>2026 70%컷, 국수탐 백분위</small>' : '학과별 자료 미확보'}</dd>
       </dl>
       <ul class="uv-memo">${u.feats.map((f) => `<li>${f}</li>`).join('')}</ul>
       <p class="uv-me"><b>나에게</b> ${u.me}</p>
-      ${u.page ? `<p class="uv-src">시행계획 원문 ${u.page}쪽</p>` : '<p class="uv-src">요약 자료 기준</p>'}
+      ${u.planPdf ? `<div class="uv-plan">
+        <span class="uv-plan-l">2028 입학전형 시행계획 원본<small>PDF ${u.planMB}MB${u.page ? `, 정시 부분 ${u.page}쪽` : ''}</small></span>
+        <span class="uv-plan-btns">
+          <a class="pill" href="${u.planPdf}${u.page ? `#page=${u.page}` : ''}" target="_blank" rel="noopener">원본 보기</a>
+          <a class="pill ghost" href="${u.planPdf}" download="${u.planFile}">내려받기</a>
+        </span></div>` : '<p class="uv-src">시행계획 원본 미확보 (울산진로진학지원센터 요약 자료 기준)</p>'}
     </article>`;
   $('#univs').innerHTML = pairs.map((pr, i) => `<li class="uv-step${i ? '' : ' on'}">${pr.map((u, j) => card(u, i * 2 + j + 1)).join('')}</li>`).join('');
   // 배경: 쌍마다 두 대학 이름을 크게 흐리게 (사진·로고 파일이 있으면 첫 대학 것을 깔기)

@@ -34,7 +34,10 @@
       "cut": [],
       "logo": "media/univs/skku.png",
       "color": "#00843D",
-      "hist5": -1
+      "hist5": -1,
+      "planPdf": "media/plans/skku.pdf",
+      "planMB": 4.0,
+      "planFile": "2028-성균관대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "고려대",
@@ -93,7 +96,10 @@
       ],
       "logo": "media/univs/korea.png",
       "color": "#8B0029",
-      "hist5": -0.2
+      "hist5": -0.2,
+      "planPdf": "media/plans/korea.pdf",
+      "planMB": 0.3,
+      "planFile": "2028-고려대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "서강대",
@@ -155,7 +161,10 @@
       ],
       "logo": "media/univs/sogang.png",
       "color": "#B01217",
-      "hist5": -0.5
+      "hist5": -0.5,
+      "planPdf": "media/plans/sogang.pdf",
+      "planMB": 0.4,
+      "planFile": "2028-서강대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "중앙대",
@@ -217,7 +226,10 @@
       ],
       "logo": "media/univs/cau.png",
       "color": "#136EAC",
-      "hist5": -0.4
+      "hist5": -0.4,
+      "planPdf": "media/plans/cau.pdf",
+      "planMB": 2.2,
+      "planFile": "2028-중앙대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "경희대",
@@ -247,7 +259,7 @@
         "영어 2등급까지 만점"
       ],
       "me": "통합과학 20%. 10월 통합과학 77(3등급)로 올랐지만 통합사회 81보다 낮음. 한국사 5등급 -2점",
-      "page": 62,
+      "page": 64,
       "cut": [
         {
           "unit": "생물학과(서울)",
@@ -270,7 +282,10 @@
       ],
       "logo": "media/univs/khu.png",
       "color": "#26336A",
-      "hist5": -2
+      "hist5": -2,
+      "planPdf": "media/plans/khu.pdf",
+      "planMB": 13.1,
+      "planFile": "2028-경희대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "건국대",
@@ -332,7 +347,10 @@
       ],
       "logo": "media/univs/konkuk.png",
       "color": "#3E9E31",
-      "hist5": -1
+      "hist5": -1,
+      "planPdf": "media/plans/konkuk.pdf",
+      "planMB": 1.7,
+      "planFile": "2028-건국대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "인하대",
@@ -385,7 +403,10 @@
       ],
       "logo": "media/univs/inha.png",
       "color": "#0677BF",
-      "hist5": -1
+      "hist5": -1,
+      "planPdf": "media/plans/inha.pdf",
+      "planMB": 0.5,
+      "planFile": "2028-인하대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "한국외대",
@@ -428,7 +449,10 @@
       "cut": [],
       "logo": "media/univs/hufs.png",
       "color": "#002843",
-      "hist5": -0.4
+      "hist5": -0.4,
+      "planPdf": "media/plans/hufs.pdf",
+      "planMB": 0.6,
+      "planFile": "2028-한국외대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "세종대",
@@ -475,7 +499,10 @@
       ],
       "logo": "media/univs/sejong.png",
       "color": "#C5062E",
-      "hist5": -0.4
+      "hist5": -0.4,
+      "planPdf": "media/plans/sejong.pdf",
+      "planMB": 0.5,
+      "planFile": "2028-세종대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "한국항공대",
@@ -509,7 +536,10 @@
       "cut": [],
       "logo": "media/univs/kau.png",
       "color": "#022971",
-      "hist5": null
+      "hist5": null,
+      "planPdf": "media/plans/kau.pdf",
+      "planMB": 0.3,
+      "planFile": "2028-한국항공대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "숭실대",
@@ -543,7 +573,10 @@
       "cut": [],
       "logo": "media/univs/ssu.png",
       "color": "#1A99B5",
-      "hist5": -2
+      "hist5": -2,
+      "planPdf": "media/plans/ssu.pdf",
+      "planMB": 1.6,
+      "planFile": "2028-숭실대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "국민대",
@@ -583,7 +616,10 @@
       ],
       "logo": "media/univs/kookmin.png",
       "color": "#5FA545",
-      "hist5": -0.2
+      "hist5": -0.2,
+      "planPdf": "media/plans/kookmin.pdf",
+      "planMB": 2.2,
+      "planFile": "2028-국민대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "광운대",
@@ -630,7 +666,10 @@
       ],
       "logo": "media/univs/kw.png",
       "color": "#7F1414",
-      "hist5": null
+      "hist5": null,
+      "planPdf": "media/plans/kw.pdf",
+      "planMB": 0.5,
+      "planFile": "2028-광운대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "명지대",
@@ -671,7 +710,10 @@
       ],
       "logo": "media/univs/mju.png",
       "color": "#003E80",
-      "hist5": -0.8
+      "hist5": -0.8,
+      "planPdf": "media/plans/mju.pdf",
+      "planMB": 0.4,
+      "planFile": "2028-명지대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "인천대",
@@ -724,7 +766,10 @@
       ],
       "logo": "media/univs/inu.png",
       "color": "#1C4BA0",
-      "hist5": 0
+      "hist5": 0,
+      "planPdf": "media/plans/inu.pdf",
+      "planMB": 0.6,
+      "planFile": "2028-인천대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "가톨릭대",
@@ -759,7 +804,10 @@
       "cut": [],
       "logo": "media/univs/cuk.png",
       "color": "#0C2E87",
-      "hist5": -1
+      "hist5": -1,
+      "planPdf": "media/plans/cuk.pdf",
+      "planMB": 0.4,
+      "planFile": "2028-가톨릭대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "상명대",
@@ -806,7 +854,10 @@
       ],
       "logo": "media/univs/smu.png",
       "color": "#0131E8",
-      "hist5": -1
+      "hist5": -1,
+      "planPdf": "media/plans/smu.pdf",
+      "planMB": 0.3,
+      "planFile": "2028-상명대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "아주대",
@@ -840,7 +891,10 @@
       "cut": [],
       "logo": "media/univs/ajou.png",
       "color": "#004B93",
-      "hist5": -5
+      "hist5": -5,
+      "planPdf": "media/plans/ajou.pdf",
+      "planMB": 0.4,
+      "planFile": "2028-아주대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "가천대",
@@ -875,7 +929,10 @@
       "cut": [],
       "logo": "media/univs/gachon.png",
       "color": "#135492",
-      "hist5": null
+      "hist5": null,
+      "planPdf": "media/plans/gachon.pdf",
+      "planMB": 0.3,
+      "planFile": "2028-가천대-대학입학전형시행계획.pdf"
     },
     {
       "univ": "경상국립대",
